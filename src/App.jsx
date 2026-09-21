@@ -16,7 +16,7 @@ export default function Page() {
     else setProducts([
       {id:1,jina:'Gauni la Kitenge Original',bei:'45000',whatsapp:'255754000000',category:'Mitindo',maelezo:'Size M, L, XL - Mwanza mjini',picha:'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600',date:Date.now()},
       {id:2,jina:'iPhone 11 128GB Boxed',bei:'550000',whatsapp:'255712345678',category:'Simu',maelezo:'Battery 98%, kila kitu',picha:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600',date:Date.now()},
-      {id:3,jina:'Sofa Set 3-2-1',bei:'1200000',whatsapp:'255702379441',category:'Samani',maelezo:'Mpya kutoka duka',picha:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600',date:Date.now()},
+      {id:3,jina:'Sofa Set 3-2-1',bei:'1200000',whatsapp:'255700111222',category:'Samani',maelezo:'Mpya kutoka duka',picha:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600',date:Date.now()},
     ])
     const untilStr = localStorage.getItem('wafla_paid_until')
     if(untilStr){

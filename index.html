@@ -1,84 +1,78 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAFLA MARKET - Tanzania</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>body{font-family:Inter,sans-serif}</style>
+  <title>Anza Kuuza - Wafla Market</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <style>body{font-family:sans-serif;padding:20px;max-width:400px;margin:auto}input,select,button{width:100%;padding:12px;margin:8px 0}button{background:black;color:white;border:0}</style>
 </head>
-<body class="bg-gray-100">
-<header class="bg-black text-white p-4 sticky top-0 z-50 flex justify-between items-center">
-  <h1 class="font-black text-xl tracking-widest">WAFLA MARKET</h1>
-  <button onclick="document.getElementById('admin').classList.toggle('hidden')" class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-black">ADMIN</button>
-</header>
+<body>
 
-<div id="admin" class="hidden max-w-2xl mx-auto bg-white p-6 m-4 rounded-2xl shadow-2xl border-2 border-yellow-400">
-  <h2 class="font-black text-lg mb-4">➕ Ongeza Bidhaa - LIVE</h2>
-  <input id="pName" placeholder="Jina la Bidhaa" class="w-full p-3 border-2 rounded-xl mb-3 font-bold">
-  <input id="pPrice" type="number" placeholder="Bei TZS" class="w-full p-3 border-2 rounded-xl mb-3">
-  <input id="pImage" placeholder="Link ya Picha https:// - tumia postimages.org" class="w-full p-3 border-2 rounded-xl mb-3">
-  <textarea id="pDesc" placeholder="Maelezo" class="w-full p-3 border-2 rounded-xl mb-3"></textarea>
-  <button onclick="addProduct()" id="addBtn" class="w-full bg-black text-white py-4 rounded-xl font-black">HIFADHI LIVE 🔥</button>
-  <p id="status" class="text-center mt-3 font-bold"></p>
+<h2>Anza Kuuza Wafla Market</h2>
+
+<div id="step1">
+  <input id="jina" placeholder="Jina lako kamili" />
+  <input id="whatsapp" placeholder="Namba yako ya WhatsApp" />
+  <input id="email" placeholder="Email yako" />
+  <input id="password" type="password" placeholder="Password" />
+  <button onclick="jisajili()">Jisajili Kwanza</button>
 </div>
 
-<main class="max-w-6xl mx-auto p-4">
-  <div class="bg-yellow-400 rounded-2xl p-6 mb-6">
-    <h2 class="font-black text-3xl">Karibu Wafla Market!</h2>
-    <p class="font-bold">Bidhaa bora Dar & Arusha - Delivery Tanzania 🇹🇿</p>
+<div id="step2" style="display:none">
+  <h3 style="color:green">Hongera! Sasa Lipa Ada</h3>
+  <div style="background:#f5f5f5;padding:15px;border-radius:8px">
+    <p><b>Ada ya kuuza:</b> Tsh 10,000 / mwezi</p>
+    <p><b>M-Pesa:</b> 0702379441</p>
+    <p><b>Jina:</b> ZAKAYO</p>
+    <p style="font-size:13px">1. Ingia M-Pesa Tuma Pesa 0702379441<br>2. Weka 10,000<br>3. Copy Transaction ID</p>
   </div>
-  <h2 class="font-black text-xl mb-4">Bidhaa Zetu <span id="count" class="text-xs bg-black text-white px-3 py-1 rounded-full ml-2">0</span></h2>
-  <div id="products" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-    <p class="col-span-full text-center py-10">Inapakia...</p>
-  </div>
-</main>
+  <input id="transID" placeholder="Weka Transaction ID hapa (mfano QI12...)" />
+  <button onclick="thibitisha()">Nimelipa - Tuma Maombi</button>
+</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<div id="step3" style="display:none">
+  <h3 style="color:orange">Maombi Yamepokelewa!</h3>
+  <p>Tutathibitisha malipo yako ya 0702379441 ndani ya dakika chache. Ukikubaliwa utapata SMS kwenye WhatsApp yako.</p>
+</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDxAlRUfvTCaGslLJR-PxKJ5gJAl_H6ZEk",
-  authDomain: "wafla--market.firebaseapp.com",
-  projectId: "wafla--market",
-  storageBucket: "wafla--market.firebasestorage.app",
-  messagingSenderId: "333720190694",
-  appId: "1:333720190694:web:b981162488a8220af54527",
-  measurementId: "G-RWYP0KMZGW"
-};
+<script>
+const firebaseConfig = { /* weka config yako ya firebase hapa */ };
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const productsCol = collection(db, "products");
+async function jisajili(){
+  const jina=document.getElementById('jina').value;
+  const whatsapp=document.getElementById('whatsapp').value;
+  const email=document.getElementById('email').value;
+  const pass=document.getElementById('password').value;
+  if(!jina||!whatsapp||!email||!pass) return alert("Jaza zote");
+  try{
+    const cred=await auth.createUserWithEmailAndPassword(email,pass);
+    await db.collection('vendors').doc(cred.user.uid).set({
+      jina, whatsapp, email,
+      ada:10000, mpesaNumber:"0702379441",
+      status:"pending", date:new Date()
+    });
+    document.getElementById('step1').style.display='none';
+    document.getElementById('step2').style.display='block';
+  }catch(e){alert(e.message)}
+}
 
-onSnapshot(productsCol, (snap) => {
-  const c = document.getElementById('products');
-  document.getElementById('count').textContent = snap.size + " bidhaa";
-  c.innerHTML = "";
-  if(snap.empty){ c.innerHTML = '<div class="col-span-full bg-white p-10 rounded-2xl text-center"><p class="text-5xl">🛒</p><p class="font-bold mt-3">Hakuna bidhaa bado</p><p class="text-sm text-gray-400">Bonyeza ADMIN uongeze</p></div>'; return; }
-  snap.forEach(d => {
-    const p = d.data();
-    c.innerHTML += `<div class="bg-white rounded-2xl overflow-hidden border shadow-sm"><img src="${p.image||'https://via.placeholder.com/400'}" class="w-full h-44 object-cover"><div class="p-3"><h3 class="font-black text-sm truncate">${p.name}</h3><p class="text-xs text-gray-500 h-8 overflow-hidden">${p.desc||''}</p><p class="font-black mt-1">TZS ${Number(p.price).toLocaleString()}</p><a href="https://wa.me/255744000000?text=Naomba ${encodeURIComponent(p.name)}" target="_blank" class="block mt-2 bg-green-500 text-white text-center py-2.5 rounded-xl text-sm font-black">WhatsApp 💬</a></div></div>`;
+async function thibitisha(){
+  const trans=document.getElementById('transID').value;
+  if(!trans) return alert("Weka Transaction ID");
+  const user=auth.currentUser;
+  await db.collection('vendors').doc(user.uid).update({
+    transactionId: trans,
+    status: "waiting_approval"
   });
-});
-
-window.addProduct = async () => {
-  const name = document.getElementById('pName').value.trim();
-  const price = document.getElementById('pPrice').value;
-  const image = document.getElementById('pImage').value.trim();
-  const desc = document.getElementById('pDesc').value.trim();
-  const status = document.getElementById('status');
-  const btn = document.getElementById('addBtn');
-  if(!name || !price){ status.textContent = "Jaza jina na bei!"; return; }
-  btn.textContent = "Inahifadhi..."; btn.disabled=true;
-  try {
-    await addDoc(productsCol, { name, price: Number(price), image, desc, createdAt: serverTimestamp() });
-    status.textContent = "✅ LIVE! Wateja wanaiona sasa!";
-    document.getElementById('pName').value=""; document.getElementById('pPrice').value=""; document.getElementById('pImage').value=""; document.getElementById('pDesc').value="";
-  } catch(e){ status.textContent = "Error: " + e.message; }
-  btn.textContent = "HIFADHI LIVE 🔥"; btn.disabled=false;
+  document.getElementById('step2').style.display='none';
+  document.getElementById('step3').style.display='block';
+  // Tuma WhatsApp kwako wewe mwenyewe
+  window.open(`https://wa.me/255702379441?text=Muuzaji mpya: ${trans} - Angalia Admin`);
 }
 </script>
 </body>
-    </html>
+  </html>

@@ -1,164 +1,132 @@
-import { useState, useEffect } from "react"
+ import { useState } from "react"
 import { createRoot } from "react-dom/client"
 
 function App(){
-  const [page, setPage] = useState("soko")
-  const [lipa, setLipa] = useState(false)
-  const [ameLipa, setAmeLipa] = useState(localStorage.getItem("wafla_paid")==="yes")
-  const [pending, setPending] = useState(localStorage.getItem("wafla_pending")==="yes")
-  const [txId, setTxId] = useState(localStorage.getItem("wafla_tx") || "")
-  const [posts, setPosts] = useState([
-    {id:1, user:"@neema_shop", jina:"Nguo za kike", bei:"20,000", maelezo:"Rangi zote size M-XXL", likes:34, liked:false, picha:"👗", wa:"255700000001"},
-    {id:2, user:"@juma_phones", jina:"Infinix Hot 40", bei:"250,000", maelezo:"Mpya box 128GB", likes:89, liked:false, picha:"📱", wa:"255700000002"},
+  const [page,setPage]=useState("soko")
+  const [lipa,setLipa]=useState(false)
+  const [ameLipa,setAmeLipa]=useState(localStorage.getItem("wafla_paid")==="yes")
+  const [pending,setPending]=useState(localStorage.getItem("wafla_pending")==="yes")
+  const [txId,setTxId]=useState("")
+  const [posts,setPosts]=useState([
+    {id:1,user:"neema_classic",jina:"Gauni la harusi",bei:"45,000",maelezo:"Size M-XXL, delivery Mwanza",likes:128,liked:false, picha:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500", wa:"255700000001"},
+    {id:2,user:"juma_phones",jina:"iPhone 13 Pro",bei:"1,450,000",maelezo:"Used clean, 256GB, box",likes:89,liked:false, picha:"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500", wa:"255700000002"},
   ])
-  const [newPost, setNewPost] = useState({jina:"", bei:"", maelezo:"", wa:"", preview:null, type:"image"})
+  const [newPost,setNewPost]=useState({jina:"",bei:"",maelezo:"",wa:"",preview:null,type:"image"})
 
-  const like = (id) => setPosts(posts.map(p=> p.id===id? {...p, liked:!p.liked, likes: p.liked? p.likes-1 : p.likes+1} : p))
-
-  const fileChange = e => {
-    if(!ameLipa){ setLipa(true); e.target.value=""; return }
-    const f = e.target.files[0]; if(!f) return
-    setNewPost({...newPost, preview:URL.createObjectURL(f), type: f.type.startsWith("video")?"video":"image"})
+  const like=(id)=>setPosts(posts.map(p=>p.id===id?{...p,liked:!p.liked,likes:p.liked?p.likes-1:p.likes+1}:p))
+  const fileChange=e=>{
+    if(!ameLipa){setLipa(true);e.target.value="";return}
+    const f=e.target.files[0]; if(!f) return
+    setNewPost({...newPost,preview:URL.createObjectURL(f),type:f.type.startsWith("video")?"video":"image"})
   }
-
-  const waLink = (namba, jina) => {
-    let n = namba.replace(/[^0-9]/g,"")
-    if(n.startsWith("0")) n = "255"+n.slice(1)
-    window.open(`https://wa.me/${n}?text=Habari, nimeona ${jina} kwenye Wafla Market. Bado ipo?`, "_blank")
-  }
-
-  const publish = () => {
-    if(!ameLipa) return setLipa(true)
-    if(!newPost.preview) return alert("Weka picha au video kwanza!")
-    if(!newPost.jina ||!newPost.bei ||!newPost.wa) return alert("Jaza jina, bei na WhatsApp yako!")
-    setPosts([{id:Date.now(), user:"@wewe", jina:newPost.jina, bei:newPost.bei, maelezo:newPost.maelezo, wa:newPost.wa, likes:0, liked:false, preview:newPost.preview, type:newPost.type},...posts])
-    setNewPost({jina:"", bei:"", maelezo:"", wa:"", preview:null, type:"image"})
-    setPage("soko")
-  }
-
-  const submitTx = () => {
-    if(txId.length < 4) return alert("Weka Transaction ID ya M-Pesa, mfano: QK97...")
-    localStorage.setItem("wafla_pending","yes")
-    localStorage.setItem("wafla_tx", txId)
-    setPending(true)
-    setLipa(false)
-    window.open(`https://wa.me/255702379441?text=Habari Lawi Rashidi, NIMELIPA 10K WAFLA MARKET. TxID: ${txId}. Naomba unifungulie niweke bidhaa na namba yangu`, "_blank")
-  }
-
-  const adminUnlock = () => {
-    const pass = document.getElementById("adminPass")?.value
-    if(pass === "lawi123"){
-      localStorage.setItem("wafla_paid","yes")
-      localStorage.removeItem("wafla_pending")
-      setAmeLipa(true)
-      setPending(false)
-      alert("✅ Umefunguliwa! Sasa unaweza kuweka video")
-    } else alert("Password ya admin si sahihi")
+  const waLink=(n,j)=>{
+    let num=n.replace(/\D/g,""); if(num.startsWith("0")) num="255"+num.slice(1)
+    window.open(`https://wa.me/${num}?text=Habari ${j}, nimeiona Wafla Market`,"_blank")
   }
 
   return(
-    <div style={{maxWidth:500, margin:"auto", background:"black", color:"white", minHeight:"100vh", fontFamily:"sans-serif"}}>
+    <div style={{maxWidth:480,margin:"auto",background:"#fafafa",color:"#111",minHeight:"100vh",fontFamily:"-apple-system,BlinkMacSystemFont,sans-serif",paddingBottom:80}}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');`}</style>
 
-      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", padding:"16px 18px", borderBottom:"1px solid #222", position:"sticky", top:0, background:"black", zIndex:10}}>
-        <h2 style={{margin:0, cursor:"pointer"}} onClick={()=>setPage("soko")}>Wafla Market</h2>
-        <button onClick={()=> ameLipa? setPage("uza") : setLipa(true)} style={{background: ameLipa? "#00c853" : "#ff0050", color:"white", border:"none", padding:"10px 18px", borderRadius:24, fontWeight:"bold"}}>
-          {ameLipa? "➕ Weka Bizaa" : "🔒 Jiunge 10K"}
-        </button>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 18px",background:"white",borderBottom:"1px solid #efefef",position:"sticky",top:0,zIndex:10}}>
+        <h1 style={{fontFamily:"Grand Hotel, cursive",fontSize:32,margin:0,fontWeight:400}}>Wafla Market</h1>
+        <button onClick={()=>ameLipa?setPage("uza"):setLipa(true)} style={{background:ameLipa?"#111":"linear-gradient(45deg,#feda75,#fa7e1e,#d62976)",color:"white",border:"none",padding:"8px 18px",borderRadius:20,fontWeight:700,fontSize:13}}>{ameLipa?"＋ Weka":"JIUNGE 10K"}</button>
       </div>
 
-      {page==="soko" && (
-        <div>
-          <div style={{padding:20, background:"#0f0f0f"}}>
-            <h3 style={{margin:"0 0 8px 0"}}>Soko la Mwanza</h3>
-            <p style={{fontSize:13, color:"#888", margin:0}}>Kuangalia ni BURE. Kuweka bizaa lazima ulipe na uweke namba yako ya WhatsApp.</p>
-            <button onClick={()=> ameLipa? setPage("uza") : setLipa(true)} style={{background:"white", color:"black", border:"none", width:"100%", padding:14, borderRadius:28, fontWeight:"bold", marginTop:14, fontSize:14}}>
-              {ameLipa? "➕ WEKA BIDHAA YAKO NA VIDEO" : "🔒 JIUNGE KAMA MUUZAJI - 10K / MWEZI"}
-            </button>
+      {page==="soko"?(
+        <>
+          <div style={{background:"white",padding:16,display:"flex",gap:14,overflowX:"auto",borderBottom:"1px solid #efefef"}}>
+            {[
+              {name:"wewe",active:true},{name:"neema"},{name:"juma"},{name:"fatma"},{name:"soko"},
+            ].map((s,i)=>(
+              <div key={i} style={{textAlign:"center",minWidth:64}}>
+                <div style={{width:64,height:64,borderRadius:32,background:i===0?"#eee":"linear-gradient(45deg,#feda75,#d62976)",padding:2}}><div style={{width:"100%",height:"100%",borderRadius:32,background:"white",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>{i===0?"➕":"👩‍🦰"}</div></div>
+                <div style={{fontSize:11,marginTop:6}}>{s.name}</div>
+              </div>
+            ))}
           </div>
 
           {posts.map(p=>(
-            <div key={p.id} style={{borderBottom:"8px solid #0a0a0a", paddingBottom:12}}>
-              <div style={{display:"flex", gap:10, padding:"14px 16px", alignItems:"center"}}>
-                <div style={{width:36, height:36, borderRadius:18, background:"linear-gradient(45deg,#feda75,#d62976)"}}></div>
-                <div><b style={{fontSize:14}}>{p.user}</b><div style={{fontSize:11, color:"#888"}}>Mwanza</div></div>
-                <div style={{marginLeft:"auto", fontSize:11, color:"#888"}}>{p.wa.slice(-12)}</div>
+            <div key={p.id} style={{background:"white",marginTop:8,border:"1px solid #efefef",borderRadius:0}}>
+              <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px"}}>
+                <div style={{width:32,height:32,borderRadius:16,background:"linear-gradient(45deg,#feda75,#d62976)"}}></div>
+                <b style={{fontSize:14}}>{p.user}</b><span style={{color:"#888",fontSize:12}}>• Mwanza</span>
+                <span style={{marginLeft:"auto"}}>•••</span>
               </div>
-              <div style={{background:"#111", minHeight:380, display:"flex", alignItems:"center", justifyContent:"center"}}>
-                {p.preview? (p.type==="video"? <video src={p.preview} controls style={{width:"100%"}}/> : <img src={p.preview} style={{width:"100%"}}/>) : <div style={{fontSize:80}}>{p.picha}</div>}
+              <div style={{background:"#000",aspectRatio:"4/5",display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
+                {p.preview? (p.type==="video"? <video src={p.preview} controls style={{width:"100%",height:"100%",objectFit:"cover"}}/> : <img src={p.preview} style={{width:"100%",height:"100%",objectFit:"cover"}}/>) : <img src={p.picha} style={{width:"100%",height:"100%",objectFit:"cover"}}/>}
               </div>
-              <div style={{padding:"14px 16px"}}>
-                <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-                  <div style={{display:"flex", gap:18, fontSize:24}}><span onClick={()=>like(p.id)} style={{cursor:"pointer"}}>{p.liked? "❤️" : "🤍"}</span><span>💬</span></div>
-                  <button onClick={()=>waLink(p.wa, p.jina)} style={{background:"#25D366", color:"white", border:"none", padding:"9px 18px", borderRadius:22, fontWeight:"bold"}}>WhatsApp Muuzaji</button>
+              <div style={{padding:"12px 14px"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div style={{display:"flex",gap:16,fontSize:22}}><span onClick={()=>like(p.id)} style={{cursor:"pointer"}}>{p.liked?"❤️":"🤍"}</span><span>💬</span><span>✈️</span></div>
+                  <span>🔖</span>
                 </div>
-                <div style={{fontSize:14, marginTop:10}}><b>{p.likes} likes</b></div>
-                <div style={{fontSize:14, marginTop:4}}><b>{p.user}</b> {p.jina} - <span style={{color:"#ff3b5c"}}>TZS {p.bei}</span></div>
-                <div style={{fontSize:13, color:"#bbb", marginTop:4}}>{p.maelezo}</div>
-                <div style={{fontSize:11, color:"#666", marginTop:6}}>Namba: {p.wa}</div>
+                <div style={{fontWeight:700,marginTop:8,fontSize:14}}>{p.likes} likes</div>
+                <div style={{fontSize:14,marginTop:4}}><b>{p.user}</b> {p.jina} <span style={{color:"#d62976",fontWeight:700}}>TZS {p.bei}</span></div>
+                <div style={{fontSize:13,color:"#555"}}>{p.maelezo}</div>
+                <div style={{marginTop:10,display:"flex",gap:8}}>
+                  <button onClick={()=>waLink(p.wa,p.jina)} style={{flex:1,background:"#25D366",color:"white",border:"none",padding:"10px",borderRadius:8,fontWeight:700}}>WhatsApp Muuzaji - {p.wa.slice(-9)}</button>
+                </div>
               </div>
             </div>
           ))}
-        </div>
-      )}
-
-      {page==="uza" && (
+        </>
+      ):(
         <div style={{padding:20}}>
-          {pending &&!ameLipa? (
-            <div style={{background:"#111", padding:24, borderRadius:18, textAlign:"center", border:"1px solid #333"}}>
-              <div style={{fontSize:40}}>⏳</div>
-              <h3>Subiri Uthibitisho</h3>
-              <p style={{fontSize:13, color:"#aaa"}}>Umetuma TxID: <b style={{color:"white"}}>{txId}</b><br/>Kwa LAWI RASHIDI - 0702379441<br/>Baada ya kuona pesa ata kufungulia.</p>
-              <div style={{background:"#000", padding:14, borderRadius:12, marginTop:16, textAlign:"left"}}>
-                <p style={{fontSize:12, margin:0}}>Kwa Admin (Lawi):</p>
-                <input id="adminPass" placeholder="Password ya admin" type="password" style={{width:"100%", padding:12, marginTop:8, borderRadius:8, background:"#222", border:"1px solid #444", color:"white"}}/>
-                <button onClick={adminUnlock} style={{background:"white", color:"black", width:"100%", padding:12, borderRadius:24, border:"none", fontWeight:"bold", marginTop:10}}>FUNGUA MTU HUYU - NIMEMUONA M-PESA</button>
-                <p style={{fontSize:10, color:"#666", marginTop:8}}>Password ni lawi123 - usimpe mteja</p>
-              </div>
-              <button onClick={()=>{localStorage.clear(); setPending(false); setAmeLipa(false); setTxId("")}} style={{background:"none", border:"none", color:"#666", marginTop:14, fontSize:12}}>Ghairi / Tuma TxID nyingine</button>
+          {pending&&!ameLipa?(
+            <div style={{background:"white",padding:24,borderRadius:16,textAlign:"center",boxShadow:"0 4px 20px rgba(0,0,0,0.08)"}}>
+              <div style={{fontSize:48}}>⏳</div><h3>Subiri Uthibitisho</h3><p style={{fontSize:13,color:"#666"}}>TxID: {localStorage.getItem("wafla_tx")} imetumwa kwa LAWI RASHIDI<br/>Akiona M-Pesa 0702379441 atakufungulia</p>
+              <input id="adminPass" placeholder="Password ya admin (lawi123)" style={{width:"100%",padding:12,borderRadius:10,border:"1px solid #ddd",marginTop:12}}/>
+              <button onClick={()=>{if(document.getElementById("adminPass").value==="lawi123"){localStorage.setItem("wafla_paid","yes");localStorage.removeItem("wafla_pending");setAmeLipa(true);setPending(false)}}} style={{background:"black",color:"white",width:"100%",padding:12,borderRadius:10,marginTop:10,fontWeight:700}}>FUNGUA KAMA ADMIN</button>
             </div>
-          ) :!ameLipa? (
-            <div style={{background:"#151515", padding:24, borderRadius:18, border:"1px solid #222"}}>
-              <h2 style={{marginTop:0}}>Jiunge kama Muuzaji</h2>
-              <p style={{fontSize:13, color:"#aaa"}}>Mchakato:</p>
-              <div style={{fontSize:14, lineHeight:"28px", background:"#000", padding:16, borderRadius:12}}>
-                1. Lipa 10,000 TZS M-Pesa<br/>2. Namba: <b style={{color:"#ffeb3b"}}>0702379441</b><br/>3. Jina: <b>LAWI RASHIDI</b><br/>4. Copy Transaction ID<br/>5. Weka hapa chini
+          ):!ameLipa?(
+            <div style={{background:"white",padding:24,borderRadius:20,boxShadow:"0 8px 30px rgba(0,0,0,0.08)",textAlign:"center"}}>
+              <div style={{width:80,height:80,borderRadius:40,background:"linear-gradient(45deg,#feda75,#d62976)",margin:"auto",display:"flex",alignItems:"center",justifyContent:"center",fontSize:36}}>🔒</div>
+              <h2 style={{margin:"16px 0 8px 0"}}>Anza Kuuza Leo</h2>
+              <p style={{color:"#666",fontSize:14,lineHeight:"20px"}}>Wafanyabiashara 200+ wanauza hapa. Lipa mara moja uza kila siku na weka namba yako ya WhatsApp.</p>
+              <div style={{background:"#fafafa",borderRadius:12,padding:16,textAlign:"left",marginTop:16,border:"1px solid #eee"}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}><span>💰 Ada ya mwezi</span><b>10,000 TZS</b></div>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}><span>📦 Bidhaa</span><b>60</b></div>
+                <div style={{display:"flex",justifyContent:"space-between"}}><span>💬 WhatsApp yako</span><b>Moja kwa moja</b></div>
               </div>
-              <button onClick={()=>setLipa(true)} style={{background:"#ff0050", color:"white", width:"100%", padding:14, borderRadius:28, border:"none", fontWeight:"bold", marginTop:16, fontSize:15}}>NIMESHALIPA - WEKA TX ID</button>
+              <button onClick={()=>setLipa(true)} style={{background:"black",color:"white",width:"100%",padding:16,borderRadius:30,border:"none",fontWeight:800,marginTop:20,fontSize:16}}>LIPA 10K - ANZA KUUZA</button>
+              <p style={{fontSize:11,color:"#999",marginTop:10}}>M-Pesa: 0702379441 - LAWI RASHIDI</p>
             </div>
-          ) : (
-            <div style={{background:"#111", padding:20, borderRadius:18, border:"2px solid #00c853"}}>
-              <p style={{textAlign:"center", color:"#00ff7f", fontWeight:"bold", marginTop:0}}>✅ Umeruhusiwa - Weka video na namba yako</p>
-              <div style={{background:"#000", borderRadius:14, minHeight:260, display:"flex", alignItems:"center", justifyContent:"center", border:"1px dashed #333", overflow:"hidden"}}>
-                {newPost.preview? (newPost.type==="video"? <video src={newPost.preview} controls style={{width:"100%"}}/> : <img src={newPost.preview} style={{width:"100%"}}/>) : <span style={{color:"#555", fontSize:13}}>Hakuna picha / video bado</span>}
+          ):(
+            <div style={{background:"white",padding:20,borderRadius:20,boxShadow:"0 8px 30px rgba(0,0,0,0.08)"}}>
+              <h3 style={{marginTop:0}}>Weka Bidhaa Mpya</h3>
+              <div style={{background:"#fafafa",aspectRatio:"1",borderRadius:16,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden",border:"2px dashed #ddd"}}>
+                {newPost.preview? (newPost.type==="video"? <video src={newPost.preview} controls style={{width:"100%",height:"100%",objectFit:"cover"}}/> : <img src={newPost.preview} style={{width:"100%",height:"100%",objectFit:"cover"}}/>) : <span style={{color:"#999"}}>Hakuna picha bado</span>}
               </div>
-              <label style={{display:"block", background:"#222", padding:14, borderRadius:12, textAlign:"center", marginTop:14, cursor:"pointer", fontWeight:"bold"}}>📸🎬 CHAGUA PICHA / VIDEO YA BIZAA<input type="file" accept="image/*,video/*" onChange={fileChange} hidden/></label>
-              <input placeholder="Jina la bizaa - mf: Nguo / iPhone" value={newPost.jina} onChange={e=>setNewPost({...newPost, jina:e.target.value})} style={{width:"100%", padding:14, marginTop:14, borderRadius:10, background:"black", border:"1px solid #333", color:"white", fontSize:14}}/>
-              <input placeholder="Bei - mf: 25000" value={newPost.bei} onChange={e=>setNewPost({...newPost, bei:e.target.value})} style={{width:"100%", padding:14, marginTop:10, borderRadius:10, background:"black", border:"1px solid #333", color:"white", fontSize:14}}/>
-              <input placeholder="Namba yako ya WhatsApp - 07..." value={newPost.wa} onChange={e=>setNewPost({...newPost, wa:e.target.value})} style={{width:"100%", padding:14, marginTop:10, borderRadius:10, background:"black", border:"2px solid #25D366", color:"white", fontSize:14}}/>
-              <textarea placeholder="Maelezo ya bizaa - size, rangi..." value={newPost.maelezo} onChange={e=>setNewPost({...newPost, maelezo:e.target.value})} style={{width:"100%", padding:14, marginTop:10, borderRadius:10, background:"black", border:"1px solid #333", color:"white", fontSize:14, minHeight:80}}/>
-              <button onClick={publish} style={{background:"white", color:"black", width:"100%", padding:16, borderRadius:30, border:"none", fontWeight:"bold", marginTop:16, fontSize:15}}>WEKA SOKONI SASA</button>
+              <label style={{display:"block",background:"black",color:"white",padding:14,borderRadius:12,textAlign:"center",marginTop:14,fontWeight:700,cursor:"pointer"}}>📸 Chagua Picha / Video<input type="file" accept="image/*,video/*" onChange={fileChange} hidden/></label>
+              <input placeholder="Jina la bidhaa" value={newPost.jina} onChange={e=>setNewPost({...newPost,jina:e.target.value})} style={{width:"100%",padding:14,marginTop:12,borderRadius:10,border:"1px solid #ddd"}}/>
+              <input placeholder="Bei" value={newPost.bei} onChange={e=>setNewPost({...newPost,bei:e.target.value})} style={{width:"100%",padding:14,marginTop:10,borderRadius:10,border:"1px solid #ddd"}}/>
+              <input placeholder="Namba yako ya WhatsApp 07..." value={newPost.wa} onChange={e=>setNewPost({...newPost,wa:e.target.value})} style={{width:"100%",padding:14,marginTop:10,borderRadius:10,border:"2px solid #25D366"}}/>
+              <textarea placeholder="Maelezo..." value={newPost.maelezo} onChange={e=>setNewPost({...newPost,maelezo:e.target.value})} style={{width:"100%",padding:14,marginTop:10,borderRadius:10,border:"1px solid #ddd",minHeight:70}}/>
+              <button onClick={()=>{if(!newPost.preview)return alert("Weka picha/video!");setPosts([{id:Date.now(),user:"wewe",jina:newPost.jina,bei:newPost.bei,maelezo:newPost.maelezo,wa:newPost.wa,likes:0,liked:false,preview:newPost.preview,type:newPost.type,picha:""},...posts]);setNewPost({jina:"",bei:"",maelezo:"",wa:"",preview:null,type:"image"});setPage("soko")}} style={{background:"linear-gradient(45deg,#feda75,#fa7e1e,#d62976)",color:"white",width:"100%",padding:16,borderRadius:30,border:"none",fontWeight:800,marginTop:14}}>CHAPISHA SOKONI 🚀</button>
             </div>
           )}
         </div>
       )}
 
-      {lipa && (
-        <div style={{position:"fixed", top:0, left:0, right:0, bottom:0, background:"rgba(0,0,0,0.96)", display:"flex", alignItems:"center", justifyContent:"center", padding:20, zIndex:99}}>
-          <div style={{background:"#161616", padding:24, borderRadius:20, width:"100%", maxWidth:380, border:"1px solid #333"}}>
-            <h3 style={{marginTop:0, textAlign:"center"}}>🔒 Thibitisha Malipo</h3>
-            <p style={{fontSize:12, color:"#aaa", textAlign:"center"}}>Mtu asiyelipa HAWEZI kuweka video. Weka Transaction ID ya M-Pesa baada ya kulipa kwa LAWI RASHIDI</p>
-            <div style={{background:"white", color:"black", padding:14, borderRadius:12, marginTop:12, lineHeight:"24px"}}>
-              M-Pesa: <b>0702379441</b><br/>Jina: <b>LAWI RASHIDI</b><br/>Kiasi: <b>10,000 TZS</b>
-            </div>
-            <input placeholder="Weka Transaction ID ya M-Pesa hapa" value={txId} onChange={e=>setTxId(e.target.value)} style={{width:"100%", padding:14, borderRadius:10, marginTop:14, background:"black", border:"1px solid #444", color:"white"}}/>
-            <button onClick={submitTx} style={{background:"#25D366", color:"white", width:"100%", padding:14, borderRadius:28, border:"none", fontWeight:"bold", marginTop:10}}>TUMA KWA LAWI RASHIDI WHATSAPP</button>
-            <button onClick={()=>setLipa(false)} style={{background:"none", border:"none", width:"100%", color:"#666", marginTop:10}}>Ghairi</button>
-            <p style={{fontSize:10, color:"#555", textAlign:"center", marginTop:8}}>Bila TxID sahihi na bila Lawi kukuthibitisha, video haitafunguka</p>
+      <div style={{position:"fixed",bottom:0,left:0,right:0,maxWidth:480,margin:"auto",background:"white",borderTop:"1px solid #efefef",display:"flex",justifyContent:"space-around",padding:"10px 0"}}>
+        <span onClick={()=>setPage("soko")} style={{fontSize:22,cursor:"pointer"}}>🏠</span><span style={{fontSize:22}}>🔍</span><span onClick={()=>ameLipa?setPage("uza"):setLipa(true)} style={{fontSize:22,cursor:"pointer"}}>➕</span><span style={{fontSize:22}}>❤️</span><span style={{fontSize:22}}>👤</span>
+      </div>
+
+      {lipa&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",display:"flex",alignItems:"flex-end",justifyContent:"center",zIndex:99}}>
+          <div style={{background:"white",width:"100%",maxWidth:480,borderRadius:"24px 24px 0 0",padding:24,animation:"slideUp 0.3s"}}>
+            <div style={{width:40,height:4,background:"#ddd",borderRadius:2,margin:"0 auto 16px auto"}}></div>
+            <h3 style={{marginTop:0}}>Thibitisha Malipo</h3>
+            <p style={{fontSize:13,color:"#666"}}>Lipa M-Pesa 0702379441 - LAWI RASHIDI kisha weka Transaction ID</p>
+            <div style={{background:"#fafafa",padding:14,borderRadius:12,marginTop:12}}>M-Pesa: <b>0702379441</b><br/>Jina: <b>LAWI RASHIDI</b><br/>10K = 60 bidhaa + WhatsApp yako</div>
+            <input placeholder="Weka Transaction ID - QK123..." value={txId} onChange={e=>setTxId(e.target.value)} style={{width:"100%",padding:14,borderRadius:10,border:"1px solid #ddd",marginTop:14}}/>
+            <button onClick={()=>{if(txId.length<4)return alert("Weka TxID");localStorage.setItem("wafla_pending","yes");localStorage.setItem("wafla_tx",txId);setPending(true);setLipa(false);window.open(`https://wa.me/255702379441?text=NIMELIPA 10K TxID: ${txId}`)}} style={{background:"black",color:"white",width:"100%",padding:14,borderRadius:30,border:"none",fontWeight:800,marginTop:12}}>TUMA KWA LAWI RASHIDI</button>
+            <button onClick={()=>setLipa(false)} style={{background:"none",border:"none",width:"100%",color:"#666",marginTop:10}}>Ghairi</button>
           </div>
         </div>
       )}
     </div>
   )
 }
-
-createRoot(document.getElementById("root")).render(<App />)
+createRoot(document.getElementById("root")).render(<App />)           

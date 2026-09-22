@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><script src="https://cdn.tailwindcss.com"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head><body class="p-6 bg-gray-100">
+<h1 class="font-bold text-xl mb-4">ADMIN - Wauzaji Wanaosubiri</h1>
+<div id="list"></div>
+<script>
+const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "...", projectId: "YOUR_PROJECT" };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+db.collection('waombaji_wauzaji').where('status','==','pending').onSnapshot(snap=>{
+  let html='';
+  snap.forEach(doc=>{
+    let d=doc.data();
+    html+=`<div class="bg-white p-4 rounded-xl mb-3"><b>${d.jina}</b> - ${d.simu}<br>TransID: ${d.transId}<br>
+    <button onclick="kubali('${doc.id}')" class="bg-green-600 text-white px-4 py-1 rounded mt-2">KUBALI - Ruhusu Auze</button></div>`;
+  });
+  document.getElementById('list').innerHTML=html || 'Hakuna anayesubiri';
+});
+
+async function kubali(id){
+  const docu = await db.collection('waombaji_wauzaji').doc(id).get();
+  await db.collection('wauzaji_walioruhusiwa').add({...docu.data(), status:'active'});
+  await db.collection('waombaji_wauzaji').doc(id).update({status:'approved'});
+  alert('AmeRuhusiwa!');
+}
+</script></body></html>

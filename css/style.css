@@ -220,5 +220,21 @@ footer {
 
   .product-card img {
     height: 220px;
+     .hidden{display:none !important}
+.product-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);transition:.2s}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.12)}
+.product-image{position:relative;height:200px;background:#f5f7fb;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.product-image img{width:100%;height:100%;object-fit:cover}
+.no-image{font-size:48px}
+.badge{position:absolute;top:10px;left:10px;background:#00b050;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.product-info{padding:16px}
+.product-info h3{margin:0 0 6px;font-size:16px}
+.price{color:#00b050;font-weight:800;font-size:18px;margin:4px 0}
+.location{font-size:13px;color:#666;margin:2px 0}
+.desc{font-size:13px;color:#444;margin:8px 0;min-height:20px}
+.product-actions{display:flex;gap:8px;margin-top:12px}
+.btn-whatsapp{flex:1;background:#25D366;color:#fff;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px}
+.btn-call{background:#f1f1f1;color:#333;padding:10px 14px;border-radius:10px;text-decoration:none;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
   }
    }

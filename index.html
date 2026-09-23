@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>WAFLA MARKET</title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
 </head>
 
+
 <body>
+
+
+<!-- ===============================
+     HEADER
+================================ -->
 
 <header>
 
@@ -17,37 +33,96 @@
     WAFLA MARKET
   </div>
 
-  <nav>
-    <a href="#products">Products</a>
-    <a href="#sell">Sell</a>
-    <a href="#account">Account</a>
 
-    <button id="logoutBtn" class="hidden">
+  <nav>
+
+    <a href="#home">
+      Home
+    </a>
+
+    <a href="#products">
+      Products
+    </a>
+
+    <a href="#sell">
+      Sell
+    </a>
+
+    <a href="#account">
+      Account
+    </a>
+
+    <button
+      id="logoutBtn"
+      class="hidden"
+    >
       Log out
     </button>
+
   </nav>
 
 </header>
 
 
+
+<!-- ===============================
+     MAIN
+================================ -->
+
 <main>
 
-<!-- HERO -->
 
-<section class="hero">
+<!-- ===============================
+     HOME
+================================ -->
+
+<section
+  id="home"
+  class="hero"
+>
 
   <p class="eyebrow">
     BUY • SELL • GROW
   </p>
 
+
   <h1>
-    Your marketplace for products and businesses.
+    WAFLA MARKET
   </h1>
 
+
+  <h2>
+    Find products. Sell products. Grow your business.
+  </h2>
+
+
   <p>
-    Buy products, sell your products and grow your business
-    with WAFLA MARKET.
+    Discover products and businesses from different sellers
+    in one marketplace.
   </p>
+
+
+  <div class="hero-buttons">
+
+    <a
+      href="#products"
+      class="btn"
+    >
+      🛍️ View Products
+    </a>
+
+
+    <a
+      href="#sell"
+      class="btn"
+    >
+      ➕ Sell Your Product
+    </a>
+
+  </div>
+
+
+  <!-- SEARCH -->
 
   <div class="search">
 
@@ -57,8 +132,12 @@
       placeholder="Search products..."
     >
 
-    <button onclick="loadProducts()">
-      Search
+
+    <button
+      type="button"
+      onclick="loadProducts()"
+    >
+      🔎 Search
     </button>
 
   </div>
@@ -67,15 +146,29 @@
 
 
 
-<!-- PRODUCTS -->
+<!-- ===============================
+     PRODUCTS
+================================ -->
 
-<section id="products" class="section">
+<section
+  id="products"
+  class="section"
+>
 
   <div class="section-head">
 
-    <h2>
-      Products
-    </h2>
+    <div>
+
+      <p class="eyebrow">
+        MARKETPLACE
+      </p>
+
+      <h2>
+        Products
+      </h2>
+
+    </div>
+
 
     <select
       id="category"
@@ -86,27 +179,27 @@
         All categories
       </option>
 
-      <option>
+      <option value="Electronics">
         Electronics
       </option>
 
-      <option>
+      <option value="Clothes">
         Clothes
       </option>
 
-      <option>
+      <option value="Food">
         Food
       </option>
 
-      <option>
+      <option value="Home">
         Home
       </option>
 
-      <option>
+      <option value="Vehicles">
         Vehicles
       </option>
 
-      <option>
+      <option value="Other">
         Other
       </option>
 
@@ -129,23 +222,32 @@
 
 
 
-<!-- SELL -->
+<!-- ===============================
+     SELL
+================================ -->
 
 <section
   id="sell"
   class="section card"
 >
 
+  <p class="eyebrow">
+    SELL
+  </p>
+
+
   <h2>
     Sell on WAFLA MARKET
   </h2>
 
+
   <p>
-    Create your product listing.
+    Put your product or business in front of customers.
   </p>
 
 
   <form id="productForm">
+
 
     <input
       id="p_name"
@@ -172,27 +274,27 @@
         Choose category
       </option>
 
-      <option>
+      <option value="Electronics">
         Electronics
       </option>
 
-      <option>
+      <option value="Clothes">
         Clothes
       </option>
 
-      <option>
+      <option value="Food">
         Food
       </option>
 
-      <option>
+      <option value="Home">
         Home
       </option>
 
-      <option>
+      <option value="Vehicles">
         Vehicles
       </option>
 
-      <option>
+      <option value="Other">
         Other
       </option>
 
@@ -229,8 +331,9 @@
 
 
     <button type="submit">
-      Save Listing
+      ➕ Add Product
     </button>
+
 
   </form>
 
@@ -241,7 +344,9 @@
 
 
 
-<!-- ACCOUNT -->
+<!-- ===============================
+     ACCOUNT
+================================ -->
 
 <section
   id="account"
@@ -249,9 +354,12 @@
 >
 
 
-  <!-- SELLER ACCOUNT -->
-
   <div class="card">
+
+    <p class="eyebrow">
+      SELLER
+    </p>
+
 
     <h2>
       Seller Account
@@ -263,7 +371,7 @@
     </p>
 
 
-    <!-- CREATE ACCOUNT -->
+    <!-- SIGN UP -->
 
     <form id="signupForm">
 
@@ -307,7 +415,6 @@
     </form>
 
 
-
     <!-- LOGIN -->
 
     <form id="loginForm">
@@ -346,9 +453,14 @@
 
 
 
-  <!-- MY LISTINGS -->
+  <!-- MY PRODUCTS -->
 
   <div class="card">
+
+    <p class="eyebrow">
+      SELLER AREA
+    </p>
+
 
     <h2>
       My Listings
@@ -360,17 +472,21 @@
     </p>
 
 
-    <div
-      id="myListings"
-    ></div>
+    <div id="myListings"></div>
 
   </div>
 
+
 </section>
+
 
 </main>
 
 
+
+<!-- ===============================
+     FOOTER
+================================ -->
 
 <footer>
 
@@ -382,20 +498,26 @@
 
 
 
-<!-- SUPABASE -->
+<!-- ===============================
+     SUPABASE
+================================ -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
 
 
 <!-- CONFIG -->
 
-<script src="js/config.js"></script>
+<script src="js/config.js">
+</script>
 
 
 <!-- APP -->
 
-<script src="js/app.js"></script>
+<script src="js/app.js">
+</script>
 
 
 </body>
-  </html>
+
+  </html>                    

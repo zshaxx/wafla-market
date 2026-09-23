@@ -4,7 +4,6 @@
 
 const { createClient } = supabase;
 
-// Supabase client
 const db = createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
@@ -26,11 +25,12 @@ const signupMsg = document.getElementById("signupMsg");
 const loginMsg = document.getElementById("loginMsg");
 
 const productMsg = document.getElementById("productMsg");
-const sellerMsg = document.getElementById("sellerMsg");
-const myListings = document.getElementById("myListings");
 
 const authState = document.getElementById("authState");
 const logoutBtn = document.getElementById("logoutBtn");
+
+const sellerMsg = document.getElementById("sellerMsg");
+const myListings = document.getElementById("myListings");
 
 
 // ===============================
@@ -39,53 +39,83 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 async function loadProducts() {
 
-  statusText.textContent = "Loading products...";
+  if (!productGrid) return;
 
-  const search = document
-    .getElementById("q")
-    .value
-    .trim();
+  if (statusText) {
+    statusText.textContent = "Loading products...";
+  }
 
-  const category = document
-    .getElementById("category")
-    .value;
+  const searchInput = document.getElementById("q");
+  const categoryInput = document.getElementById("category");
+
+  const search = searchInput
+    ? searchInput.value.trim()
+    : "";
+
+  const category = categoryInput
+    ? categoryInput.value
+    : "";
+
 
   let query = db
     .from("products")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_at", {
+      ascending: false
+    });
 
 
   // Search
   if (search) {
-    query = query.ilike("name", `%${search}%`);
+
+    query = query.ilike(
+      "name",
+      `%${search}%`
+    );
+
   }
 
 
   // Category
   if (category) {
-    query = query.eq("category", category);
+
+    query = query.eq(
+      "category",
+      category
+    );
+
   }
 
 
-  const { data, error } = await query;
+  const {
+    data,
+    error
+  } = await query;
 
 
   if (error) {
 
-    console.error(error);
+    console.error(
+      "LOAD PRODUCTS ERROR:",
+      error
+    );
 
-    statusText.textContent =
-      "Failed to load products.";
+    if (statusText) {
+      statusText.textContent =
+        "Failed to load products.";
+    }
 
     return;
   }
 
 
+  // No products
   if (!data || data.length === 0) {
 
-    statusText.textContent =
-      "No products found.";
+    if (statusText) {
+      statusText.textContent =
+        "No products found.";
+    }
 
     productGrid.innerHTML = "";
 
@@ -93,17 +123,24 @@ async function loadProducts() {
   }
 
 
-  statusText.textContent =
-    `${data.length} product(s) found.`;
+  if (statusText) {
+
+    statusText.textContent =
+      `${data.length} product(s) found.`;
+
+  }
+
 
   productGrid.innerHTML = "";
 
 
   data.forEach(product => {
 
-    const card = document.createElement("div");
+    const card =
+      document.createElement("div");
 
-    card.className = "product-card";
+    card.className =
+      "product-card";
 
 
     const image = product.image_url
@@ -114,7 +151,7 @@ async function loadProducts() {
     card.innerHTML = `
 
       <img
-        src="${image}"
+        src="${escapeHTML(image)}"
         alt="${escapeHTML(product.name)}"
         onerror="this.src='https://via.placeholder.com/500x350?text=WAFLA+MARKET'"
       >
@@ -129,6 +166,10 @@ async function loadProducts() {
           TZS ${Number(product.price).toLocaleString()}
         </p>
 
+        <p>
+          📂 ${escapeHTML(product.category)}
+        </p>
+
         <p class="location">
           📍 ${escapeHTML(product.location)}
         </p>
@@ -141,12 +182,13 @@ async function loadProducts() {
 
         <a
           class="btn"
-          href="tel:${product.phone}"
+          href="tel:${escapeHTML(product.phone)}"
         >
           📞 Contact Seller
         </a>
 
       </div>
+
     `;
 
 
@@ -158,241 +200,288 @@ async function loadProducts() {
 
 
 // ===============================
-// SELL PRODUCT
+// ADD / SELL PRODUCT
 // ===============================
 
-productForm.addEventListener("submit", async function(event) {
+if (productForm) {
 
-  event.preventDefault();
+  productForm.addEventListener(
+    "submit",
+    async function(event) {
 
-  productMsg.textContent = "Saving listing...";
-
-
-  // Check login
-  const {
-    data: { user }
-  } = await db.auth.getUser();
+      event.preventDefault();
 
 
-  if (!user) {
-
-    productMsg.textContent =
-      "Please login before selling a product.";
-
-    return;
-  }
+      if (productMsg) {
+        productMsg.textContent =
+          "Saving product...";
+      }
 
 
-  // Find seller
-  const {
-    data: seller,
-    error: sellerError
-  } = await db
-    .from("sellers")
-    .select("id")
-    .eq("auth_user_id", user.id)
-    .single();
+      const name =
+        document
+          .getElementById("p_name")
+          .value
+          .trim();
 
 
-  if (sellerError || !seller) {
-
-    console.error(sellerError);
-
-    productMsg.textContent =
-      "Seller account not found.";
-
-    return;
-  }
+      const price =
+        Number(
+          document
+            .getElementById("p_price")
+            .value
+        );
 
 
-  const product = {
-
-    seller_id: seller.id,
-
-    name: document
-      .getElementById("p_name")
-      .value
-      .trim(),
-
-    price: Number(
-      document.getElementById("p_price").value
-    ),
-
-    category: document
-      .getElementById("p_category")
-      .value,
-
-    location: document
-      .getElementById("p_location")
-      .value
-      .trim(),
-
-    phone: document
-      .getElementById("p_phone")
-      .value
-      .trim(),
-
-    image_url: document
-      .getElementById("p_image")
-      .value
-      .trim() || null,
-
-    description: document
-      .getElementById("p_description")
-      .value
-      .trim() || null,
-
-    status: "published"
-
-  };
+      const category =
+        document
+          .getElementById("p_category")
+          .value;
 
 
-  const {
-    error
-  } = await db
-    .from("products")
-    .insert(product);
+      const location =
+        document
+          .getElementById("p_location")
+          .value
+          .trim();
 
 
-  if (error) {
-
-    console.error(error);
-
-    productMsg.textContent =
-      "Failed to save listing.";
-
-    return;
-  }
+      const phone =
+        document
+          .getElementById("p_phone")
+          .value
+          .trim();
 
 
-  productMsg.textContent =
-    "✅ Product listed successfully!";
+      const image_url =
+        document
+          .getElementById("p_image")
+          .value
+          .trim() || null;
 
 
-  productForm.reset();
+      const description =
+        document
+          .getElementById("p_description")
+          .value
+          .trim() || null;
 
 
-  // Reload market
-  loadProducts();
+      // Check required fields
+      if (
+        !name ||
+        !price ||
+        !category ||
+        !location ||
+        !phone
+      ) {
+
+        if (productMsg) {
+
+          productMsg.textContent =
+            "Please fill all required fields.";
+
+        }
+
+        return;
+      }
 
 
-  // Reload seller listings
-  loadMyListings();
+      // Product object
+      const product = {
 
-});
+        name: name,
+
+        price: price,
+
+        category: category,
+
+        location: location,
+
+        phone: phone,
+
+        image_url: image_url,
+
+        description: description
+
+      };
+
+
+      // Save to Supabase
+      const {
+        data,
+        error
+      } = await db
+        .from("products")
+        .insert([product])
+        .select();
+
+
+      if (error) {
+
+        console.error(
+          "SAVE PRODUCT ERROR:",
+          error
+        );
+
+        if (productMsg) {
+
+          productMsg.textContent =
+            "Failed to save product: " +
+            error.message;
+
+        }
+
+        return;
+      }
+
+
+      console.log(
+        "Product saved:",
+        data
+      );
+
+
+      if (productMsg) {
+
+        productMsg.textContent =
+          "✅ Product added successfully!";
+
+      }
+
+
+      productForm.reset();
+
+
+      // Show product immediately
+      await loadProducts();
+
+    }
+  );
+
+}
 
 
 // ===============================
-// CREATE SELLER ACCOUNT
+// SEARCH
 // ===============================
 
-signupForm.addEventListener("submit", async function(event) {
-
-  event.preventDefault();
-
-  signupMsg.textContent =
-    "Creating account...";
+const searchInput =
+  document.getElementById("q");
 
 
-  const fullName =
-    document.getElementById("full_name")
-      .value
-      .trim();
+if (searchInput) {
 
-  const email =
-    document.getElementById("email")
-      .value
-      .trim();
+  searchInput.addEventListener(
+    "input",
+    loadProducts
+  );
 
-  const password =
-    document.getElementById("password")
-      .value;
+}
 
 
-  const {
-    data,
-    error
-  } = await db.auth.signUp({
+// ===============================
+// CATEGORY FILTER
+// ===============================
 
-    email: email,
+const categoryInput =
+  document.getElementById("category");
 
-    password: password,
 
-    options: {
+if (categoryInput) {
 
-      data: {
-        full_name: fullName
+  categoryInput.addEventListener(
+    "change",
+    loadProducts
+  );
+
+}
+
+
+// ===============================
+// SIGN UP
+// ===============================
+
+if (signupForm) {
+
+  signupForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      if (signupMsg) {
+
+        signupMsg.textContent =
+          "Creating account...";
+
+      }
+
+
+      const fullName =
+        document
+          .getElementById("full_name")
+          .value
+          .trim();
+
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+
+      const {
+        error
+      } = await db.auth.signUp({
+
+        email: email,
+
+        password: password,
+
+        options: {
+
+          data: {
+
+            full_name: fullName
+
+          }
+
+        }
+
+      });
+
+
+      if (error) {
+
+        if (signupMsg) {
+
+          signupMsg.textContent =
+            error.message;
+
+        }
+
+        return;
+      }
+
+
+      if (signupMsg) {
+
+        signupMsg.textContent =
+          "✅ Account created. Check your email.";
+
       }
 
     }
-
-  });
-
-
-  if (error) {
-
-    signupMsg.textContent =
-      error.message;
-
-    return;
-  }
-
-
-  // Create seller profile if session exists
-  if (data.user && data.session) {
-
-    await createSellerProfile(
-      data.user,
-      fullName,
-      email
-    );
-
-  }
-
-
-  signupMsg.textContent =
-    "✅ Account created. Check your email if confirmation is required.";
-
-});
-
-
-// ===============================
-// CREATE SELLER PROFILE
-// ===============================
-
-async function createSellerProfile(
-  user,
-  fullName,
-  email
-) {
-
-  const {
-    error
-  } = await db
-    .from("sellers")
-    .upsert({
-
-      auth_user_id: user.id,
-
-      full_name: fullName,
-
-      email: email
-
-    }, {
-
-      onConflict: "auth_user_id"
-
-    });
-
-
-  if (error) {
-
-    console.error(
-      "Seller profile error:",
-      error
-    );
-
-  }
+  );
 
 }
 
@@ -401,79 +490,96 @@ async function createSellerProfile(
 // LOGIN
 // ===============================
 
-loginForm.addEventListener("submit", async function(event) {
+if (loginForm) {
 
-  event.preventDefault();
+  loginForm.addEventListener(
+    "submit",
+    async function(event) {
 
-  loginMsg.textContent =
-    "Logging in...";
-
-
-  const email =
-    document.getElementById("loginEmail")
-      .value
-      .trim();
-
-  const password =
-    document.getElementById("loginPassword")
-      .value;
+      event.preventDefault();
 
 
-  const {
-    data,
-    error
-  } = await db.auth.signInWithPassword({
+      if (loginMsg) {
 
-    email: email,
+        loginMsg.textContent =
+          "Logging in...";
 
-    password: password
-
-  });
+      }
 
 
-  if (error) {
-
-    loginMsg.textContent =
-      error.message;
-
-    return;
-  }
+      const email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
 
 
-  // Make sure seller profile exists
-  await createSellerProfile(
-    data.user,
-    data.user.user_metadata?.full_name || "",
-    data.user.email
+      const password =
+        document
+          .getElementById("loginPassword")
+          .value;
+
+
+      const {
+        data,
+        error
+      } = await db.auth
+        .signInWithPassword({
+
+          email: email,
+
+          password: password
+
+        });
+
+
+      if (error) {
+
+        if (loginMsg) {
+
+          loginMsg.textContent =
+            error.message;
+
+        }
+
+        return;
+      }
+
+
+      if (loginMsg) {
+
+        loginMsg.textContent =
+          "✅ Login successful.";
+
+      }
+
+
+      updateAuthUI();
+
+    }
   );
 
-
-  loginMsg.textContent =
-    "✅ Login successful.";
-
-  updateAuthUI();
-
-  loadMyListings();
-
-});
+}
 
 
 // ===============================
 // LOGOUT
 // ===============================
 
-logoutBtn.addEventListener("click", async function() {
+if (logoutBtn) {
 
-  await db.auth.signOut();
+  logoutBtn.addEventListener(
+    "click",
+    async function() {
 
-  updateAuthUI();
+      await db.auth.signOut();
 
-  myListings.innerHTML = "";
+      updateAuthUI();
 
-  sellerMsg.textContent =
-    "Login to see your listings.";
+    }
+  );
 
-});
+}
 
 
 // ===============================
@@ -489,155 +595,73 @@ async function updateAuthUI() {
 
   if (user) {
 
-    authState.textContent =
-      `Signed in as ${user.email}`;
+    if (authState) {
 
-    logoutBtn.classList.remove("hidden");
+      authState.textContent =
+        `Signed in as ${user.email}`;
 
-    signupForm.style.display = "none";
-    loginForm.style.display = "none";
+    }
 
-    sellerMsg.textContent =
-      "Your products:";
 
-    loadMyListings();
+    if (logoutBtn) {
+
+      logoutBtn.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    if (signupForm) {
+
+      signupForm.style.display =
+        "none";
+
+    }
+
+
+    if (loginForm) {
+
+      loginForm.style.display =
+        "none";
+
+    }
 
   } else {
 
-    authState.textContent =
-      "Not signed in.";
+    if (authState) {
 
-    logoutBtn.classList.add("hidden");
+      authState.textContent =
+        "Not signed in.";
 
-    signupForm.style.display = "block";
-    loginForm.style.display = "block";
+    }
+
+
+    if (logoutBtn) {
+
+      logoutBtn.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    if (signupForm) {
+
+      signupForm.style.display =
+        "block";
+
+    }
+
+
+    if (loginForm) {
+
+      loginForm.style.display =
+        "block";
+
+    }
 
   }
-
-}
-
-
-// ===============================
-// MY LISTINGS
-// ===============================
-
-async function loadMyListings() {
-
-  const {
-    data: { user }
-  } = await db.auth.getUser();
-
-
-  if (!user) {
-
-    sellerMsg.textContent =
-      "Login to see your listings.";
-
-    return;
-  }
-
-
-  const {
-    data: seller,
-    error: sellerError
-  } = await db
-    .from("sellers")
-    .select("id")
-    .eq("auth_user_id", user.id)
-    .single();
-
-
-  if (sellerError || !seller) {
-
-    sellerMsg.textContent =
-      "Seller profile not found.";
-
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } = await db
-    .from("products")
-    .select("*")
-    .eq("seller_id", seller.id)
-    .order("created_at", {
-      ascending: false
-    });
-
-
-  if (error) {
-
-    console.error(error);
-
-    sellerMsg.textContent =
-      "Failed to load listings.";
-
-    return;
-  }
-
-
-  if (!data || data.length === 0) {
-
-    sellerMsg.textContent =
-      "You have no listings yet.";
-
-    myListings.innerHTML = "";
-
-    return;
-  }
-
-
-  sellerMsg.textContent =
-    `You have ${data.length} listing(s).`;
-
-
-  myListings.innerHTML = "";
-
-
-  data.forEach(product => {
-
-    const item =
-      document.createElement("div");
-
-    item.className =
-      "product-card";
-
-
-    item.innerHTML = `
-
-      <div class="product-info">
-
-        <h3>
-          ${escapeHTML(product.name)}
-        </h3>
-
-        <p class="price">
-          TZS ${Number(product.price).toLocaleString()}
-        </p>
-
-        <p>
-          ${escapeHTML(product.category)}
-        </p>
-
-        <p>
-          📍 ${escapeHTML(product.location)}
-        </p>
-
-        <p>
-          Status: ${escapeHTML(product.status)}
-        </p>
-
-      </div>
-
-    `;
-
-
-    myListings.appendChild(item);
-
-  });
 
 }
 
@@ -651,11 +675,31 @@ function escapeHTML(value) {
   if (!value) return "";
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
@@ -673,5 +717,9 @@ db.auth.onAuthStateChange(
 );
 
 
+// Load products when page opens
 loadProducts();
+
+
+// Update login state
 updateAuthUI();

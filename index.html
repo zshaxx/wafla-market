@@ -2,480 +2,961 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <title>WAFLA MARKET - Buy & Sell</title>
 
-  <title>WAFLA MARKET</title>
-
-  <link
-    rel="stylesheet"
-    href="css/style.css"
-  >
-
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 
 <body>
 
+<!-- ==================================================
+     TOP BAR
+================================================== -->
 
-<!-- ===============================
-     HEADER
-================================ -->
+<div class="top-bar">
 
-<header>
+  <div class="container top-content">
 
-  <div class="logo">
-    WAFLA MARKET
+    <span>
+      Welcome to WAFLA MARKET
+    </span>
+
+    <div>
+
+      <a href="#products">
+        Products
+      </a>
+
+      <a href="#sell">
+        Sell
+      </a>
+
+      <a href="#account">
+        Help
+      </a>
+
+    </div>
+
   </div>
 
+</div>
 
-  <nav>
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="main-header">
+
+  <div class="container header-content">
+
+    <a href="#home" class="logo">
+      WAFLA
+      <span>MARKET</span>
+    </a>
+
+
+    <div class="search-box">
+
+      <select id="searchCategory">
+
+        <option value="">
+          All Categories
+        </option>
+
+        <option>
+          Electronics
+        </option>
+
+        <option>
+          Clothes
+        </option>
+
+        <option>
+          Food
+        </option>
+
+        <option>
+          Home
+        </option>
+
+        <option>
+          Vehicles
+        </option>
+
+        <option>
+          Other
+        </option>
+
+      </select>
+
+
+      <input
+        id="q"
+        type="text"
+        placeholder="What are you looking for?"
+      >
+
+
+      <button
+        type="button"
+        onclick="loadProducts()"
+      >
+        Search
+      </button>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <a href="#account">
+        👤 Account
+      </a>
+
+      <a href="#sell">
+        ➕ Sell
+      </a>
+
+      <button
+        id="logoutBtn"
+        class="hidden"
+      >
+        Log out
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- ==================================================
+     NAVIGATION
+================================================== -->
+
+<nav class="category-nav">
+
+  <div class="container nav-content">
 
     <a href="#home">
       Home
     </a>
 
     <a href="#products">
-      Products
+      All Products
+    </a>
+
+    <a href="#electronics">
+      Electronics
+    </a>
+
+    <a href="#clothes">
+      Clothes
+    </a>
+
+    <a href="#food">
+      Food
+    </a>
+
+    <a href="#home-products">
+      Home & Garden
+    </a>
+
+    <a href="#vehicles">
+      Vehicles
     </a>
 
     <a href="#sell">
-      Sell
+      Sell on WAFLA
     </a>
 
-    <a href="#account">
-      Account
-    </a>
+  </div>
 
-    <button
-      id="logoutBtn"
-      class="hidden"
-    >
-      Log out
-    </button>
-
-  </nav>
-
-</header>
+</nav>
 
 
-
-<!-- ===============================
+<!-- ==================================================
      MAIN
-================================ -->
+================================================== -->
 
 <main>
 
 
-<!-- ===============================
-     HOME
-================================ -->
+<!-- ==================================================
+     HERO
+================================================== -->
 
 <section
   id="home"
-  class="hero"
+  class="hero-market"
 >
 
-  <p class="eyebrow">
-    BUY • SELL • GROW
-  </p>
+  <div class="container hero-grid">
 
 
-  <h1>
-    WAFLA MARKET
-  </h1>
+    <!-- CATEGORY SIDEBAR -->
+
+    <aside class="category-sidebar">
+
+      <h3>
+        Categories
+      </h3>
 
 
-  <h2>
-    Find products. Sell products. Grow your business.
-  </h2>
+      <a href="#products">
+        📱 Electronics
+      </a>
+
+      <a href="#products">
+        👕 Clothes
+      </a>
+
+      <a href="#products">
+        🍔 Food
+      </a>
+
+      <a href="#products">
+        🏠 Home & Garden
+      </a>
+
+      <a href="#products">
+        🚗 Vehicles
+      </a>
+
+      <a href="#products">
+        💼 Business Services
+      </a>
+
+      <a href="#products">
+        📦 Other Products
+      </a>
+
+    </aside>
 
 
-  <p>
-    Discover products and businesses from different sellers
-    in one marketplace.
-  </p>
+    <!-- HERO CONTENT -->
+
+    <div class="hero-main">
+
+      <div class="hero-text">
+
+        <p class="eyebrow">
+          WAFLA MARKET
+        </p>
 
 
-  <div class="hero-buttons">
-
-    <a
-      href="#products"
-      class="btn"
-    >
-      🛍️ View Products
-    </a>
+        <h1>
+          Buy and sell products
+          in one marketplace.
+        </h1>
 
 
-    <a
-      href="#sell"
-      class="btn"
-    >
-      ➕ Sell Your Product
-    </a>
-
-  </div>
+        <p>
+          Discover products from different sellers,
+          compare prices and contact sellers directly.
+        </p>
 
 
-  <!-- SEARCH -->
+        <div class="hero-buttons">
 
-  <div class="search">
-
-    <input
-      type="text"
-      id="q"
-      placeholder="Search products..."
-    >
-
-
-    <button
-      type="button"
-      onclick="loadProducts()"
-    >
-      🔎 Search
-    </button>
-
-  </div>
-
-</section>
+          <a
+            href="#products"
+            class="primary-btn"
+          >
+            Shop Now
+          </a>
 
 
+          <a
+            href="#sell"
+            class="secondary-btn"
+          >
+            Start Selling
+          </a>
 
-<!-- ===============================
-     PRODUCTS
-================================ -->
+        </div>
 
-<section
-  id="products"
-  class="section"
->
-
-  <div class="section-head">
-
-    <div>
-
-      <p class="eyebrow">
-        MARKETPLACE
-      </p>
-
-      <h2>
-        Products
-      </h2>
+      </div>
 
     </div>
 
 
-    <select
-      id="category"
-      onchange="loadProducts()"
-    >
+    <!-- ACCOUNT BOX -->
 
-      <option value="">
-        All categories
-      </option>
+    <aside class="welcome-box">
 
-      <option value="Electronics">
-        Electronics
-      </option>
+      <div class="user-icon">
+        👤
+      </div>
 
-      <option value="Clothes">
-        Clothes
-      </option>
 
-      <option value="Food">
-        Food
-      </option>
+      <h3>
+        Welcome to WAFLA
+      </h3>
 
-      <option value="Home">
-        Home
-      </option>
 
-      <option value="Vehicles">
-        Vehicles
-      </option>
+      <p>
+        Join WAFLA MARKET to start selling
+        your products.
+      </p>
 
-      <option value="Other">
-        Other
-      </option>
 
-    </select>
+      <a
+        href="#account"
+        class="primary-btn"
+      >
+        Join Free
+      </a>
+
+
+      <a
+        href="#account"
+        class="outline-btn"
+      >
+        Sign In
+      </a>
+
+    </aside>
 
   </div>
-
-
-  <p id="status">
-    Loading products...
-  </p>
-
-
-  <div
-    id="productGrid"
-    class="grid"
-  ></div>
 
 </section>
 
 
+<!-- ==================================================
+     QUICK CATEGORIES
+================================================== -->
 
-<!-- ===============================
-     SELL
-================================ -->
+<section class="quick-section">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <div>
+
+        <p class="eyebrow">
+          EXPLORE
+        </p>
+
+        <h2>
+          Popular Categories
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <div class="category-cards">
+
+
+      <a href="#products" class="category-card">
+
+        <div class="category-icon">
+          📱
+        </div>
+
+        <h3>
+          Electronics
+        </h3>
+
+        <p>
+          Phones, computers & more
+        </p>
+
+      </a>
+
+
+      <a href="#products" class="category-card">
+
+        <div class="category-icon">
+          👕
+        </div>
+
+        <h3>
+          Fashion
+        </h3>
+
+        <p>
+          Clothes, shoes & accessories
+        </p>
+
+      </a>
+
+
+      <a href="#products" class="category-card">
+
+        <div class="category-icon">
+          🏠
+        </div>
+
+        <h3>
+          Home
+        </h3>
+
+        <p>
+          Furniture & home products
+        </p>
+
+      </a>
+
+
+      <a href="#products" class="category-card">
+
+        <div class="category-icon">
+          🚗
+        </div>
+
+        <h3>
+          Vehicles
+        </h3>
+
+        <p>
+          Cars, bikes & accessories
+        </p>
+
+      </a>
+
+
+      <a href="#products" class="category-card">
+
+        <div class="category-icon">
+          🍔
+        </div>
+
+        <h3>
+          Food
+        </h3>
+
+        <p>
+          Food & drinks
+        </p>
+
+      </a>
+
+
+      <a href="#products" class="category-card">
+
+        <div class="category-icon">
+          💼
+        </div>
+
+        <h3>
+          Services
+        </h3>
+
+        <p>
+          Business services
+        </p>
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==================================================
+     PRODUCTS
+================================================== -->
+
+<section
+  id="products"
+  class="products-section"
+>
+
+  <div class="container">
+
+
+    <div class="section-title">
+
+      <div>
+
+        <p class="eyebrow">
+          MARKETPLACE
+        </p>
+
+        <h2>
+          Featured Products
+        </h2>
+
+      </div>
+
+
+      <select
+        id="category"
+        onchange="loadProducts()"
+      >
+
+        <option value="">
+          All Categories
+        </option>
+
+        <option value="Electronics">
+          Electronics
+        </option>
+
+        <option value="Clothes">
+          Clothes
+        </option>
+
+        <option value="Food">
+          Food
+        </option>
+
+        <option value="Home">
+          Home
+        </option>
+
+        <option value="Vehicles">
+          Vehicles
+        </option>
+
+        <option value="Other">
+          Other
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <p id="status">
+      Loading products...
+    </p>
+
+
+    <!-- PRODUCTS FROM SUPABASE -->
+
+    <div
+      id="productGrid"
+      class="product-grid"
+    ></div>
+
+
+  </div>
+
+</section>
+
+
+<!-- ==================================================
+     SELLER BANNER
+================================================== -->
+
+<section class="seller-banner">
+
+  <div class="container seller-banner-content">
+
+    <div>
+
+      <p class="eyebrow">
+        FOR SELLERS
+      </p>
+
+      <h2>
+        Reach more customers with WAFLA MARKET
+      </h2>
+
+      <p>
+        List your products and let customers
+        contact you directly.
+      </p>
+
+    </div>
+
+
+    <a
+      href="#sell"
+      class="primary-btn"
+    >
+      Start Selling
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- ==================================================
+     SELL PRODUCT
+================================================== -->
 
 <section
   id="sell"
-  class="section card"
+  class="sell-section"
 >
 
-  <p class="eyebrow">
-    SELL
-  </p>
+  <div class="container">
 
 
-  <h2>
-    Sell on WAFLA MARKET
-  </h2>
+    <div class="section-title">
+
+      <div>
+
+        <p class="eyebrow">
+          SELLER CENTER
+        </p>
+
+        <h2>
+          Add Your Product
+        </h2>
+
+        <p>
+          Enter your product information below.
+        </p>
+
+      </div>
+
+    </div>
 
 
-  <p>
-    Put your product or business in front of customers.
-  </p>
+    <div class="sell-card">
 
 
-  <form id="productForm">
+      <form id="productForm">
 
 
-    <input
-      id="p_name"
-      type="text"
-      placeholder="Product / Business name"
-      required
-    >
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label>
+              Product / Business Name
+            </label>
+
+            <input
+              id="p_name"
+              type="text"
+              placeholder="Example: iPhone 13"
+              required
+            >
+
+          </div>
 
 
-    <input
-      id="p_price"
-      type="number"
-      placeholder="Price (TZS)"
-      required
-    >
+          <div class="form-group">
+
+            <label>
+              Price (TZS)
+            </label>
+
+            <input
+              id="p_price"
+              type="number"
+              placeholder="850000"
+              required
+            >
+
+          </div>
+
+        </div>
 
 
-    <select
-      id="p_category"
-      required
-    >
+        <div class="form-row">
 
-      <option value="">
-        Choose category
-      </option>
+          <div class="form-group">
 
-      <option value="Electronics">
-        Electronics
-      </option>
+            <label>
+              Category
+            </label>
 
-      <option value="Clothes">
-        Clothes
-      </option>
+            <select
+              id="p_category"
+              required
+            >
 
-      <option value="Food">
-        Food
-      </option>
+              <option value="">
+                Select category
+              </option>
 
-      <option value="Home">
-        Home
-      </option>
+              <option value="Electronics">
+                Electronics
+              </option>
 
-      <option value="Vehicles">
-        Vehicles
-      </option>
+              <option value="Clothes">
+                Clothes
+              </option>
 
-      <option value="Other">
-        Other
-      </option>
+              <option value="Food">
+                Food
+              </option>
 
-    </select>
+              <option value="Home">
+                Home
+              </option>
 
+              <option value="Vehicles">
+                Vehicles
+              </option>
 
-    <input
-      id="p_location"
-      type="text"
-      placeholder="Location"
-      required
-    >
+              <option value="Other">
+                Other
+              </option>
 
+            </select>
 
-    <input
-      id="p_phone"
-      type="text"
-      placeholder="Phone / WhatsApp"
-      required
-    >
+          </div>
 
 
-    <input
-      id="p_image"
-      type="url"
-      placeholder="Image URL"
-    >
+          <div class="form-group">
+
+            <label>
+              Location
+            </label>
+
+            <input
+              id="p_location"
+              type="text"
+              placeholder="Example: Mwanza"
+              required
+            >
+
+          </div>
+
+        </div>
 
 
-    <textarea
-      id="p_description"
-      placeholder="Product description"
-    ></textarea>
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label>
+              Phone / WhatsApp
+            </label>
+
+            <input
+              id="p_phone"
+              type="text"
+              placeholder="Example: 07XXXXXXXX"
+              required
+            >
+
+          </div>
 
 
-    <button type="submit">
-      ➕ Add Product
-    </button>
+          <div class="form-group">
+
+            <label>
+              Image URL
+            </label>
+
+            <input
+              id="p_image"
+              type="url"
+              placeholder="Paste image link"
+            >
+
+          </div>
+
+        </div>
 
 
-  </form>
+        <div class="form-group">
+
+          <label>
+            Description
+          </label>
+
+          <textarea
+            id="p_description"
+            placeholder="Describe your product..."
+          ></textarea>
+
+        </div>
 
 
-  <p id="productMsg"></p>
+        <button
+          type="submit"
+          class="primary-btn"
+        >
+          ➕ Add Product
+        </button>
+
+
+        <p id="productMsg"></p>
+
+
+      </form>
+
+    </div>
+
+  </div>
 
 </section>
 
 
-
-<!-- ===============================
+<!-- ==================================================
      ACCOUNT
-================================ -->
+================================================== -->
 
 <section
   id="account"
-  class="section account"
+  class="account-section"
 >
 
-
-  <div class="card">
-
-    <p class="eyebrow">
-      SELLER
-    </p>
+  <div class="container">
 
 
-    <h2>
-      Seller Account
-    </h2>
+    <div class="section-title">
+
+      <div>
+
+        <p class="eyebrow">
+          ACCOUNT
+        </p>
+
+        <h2>
+          Seller Account
+        </h2>
+
+      </div>
+
+    </div>
 
 
-    <p id="authState">
-      Not signed in.
-    </p>
+    <div class="account-grid">
 
 
-    <!-- SIGN UP -->
+      <!-- CREATE ACCOUNT -->
 
-    <form id="signupForm">
+      <div class="account-card">
 
-      <h3>
-        Create Seller Account
-      </h3>
+        <h3>
+          Create Account
+        </h3>
 
-
-      <input
-        id="full_name"
-        type="text"
-        placeholder="Full name"
-        required
-      >
+        <p>
+          Create a seller account to manage
+          your products.
+        </p>
 
 
-      <input
-        id="email"
-        type="email"
-        placeholder="Email"
-        required
-      >
+        <form id="signupForm">
 
 
-      <input
-        id="password"
-        type="password"
-        placeholder="Password"
-        minlength="6"
-        required
-      >
+          <input
+            id="full_name"
+            type="text"
+            placeholder="Full name"
+            required
+          >
 
 
-      <button type="submit">
-        Create Account
-      </button>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email address"
+            required
+          >
 
 
-      <p id="signupMsg"></p>
-
-    </form>
-
-
-    <!-- LOGIN -->
-
-    <form id="loginForm">
-
-      <h3>
-        Login
-      </h3>
+          <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            minlength="6"
+            required
+          >
 
 
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="Email"
-        required
-      >
+          <button type="submit">
+            Create Account
+          </button>
 
 
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="Password"
-        required
-      >
+          <p id="signupMsg"></p>
+
+        </form>
+
+      </div>
 
 
-      <button type="submit">
-        Login
-      </button>
+      <!-- LOGIN -->
+
+      <div class="account-card">
+
+        <h3>
+          Sign In
+        </h3>
+
+        <p id="authState">
+          Not signed in.
+        </p>
 
 
-      <p id="loginMsg"></p>
+        <form id="loginForm">
 
-    </form>
+
+          <input
+            id="loginEmail"
+            type="email"
+            placeholder="Email address"
+            required
+          >
+
+
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Password"
+            required
+          >
+
+
+          <button type="submit">
+            Login
+          </button>
+
+
+          <p id="loginMsg"></p>
+
+        </form>
+
+
+        <button
+          id="logoutBtn"
+          class="hidden"
+        >
+          Log out
+        </button>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- MY LISTINGS -->
+
+    <div class="my-listings">
+
+      <h2>
+        My Listings
+      </h2>
+
+
+      <p id="sellerMsg">
+        Login to see your listings.
+      </p>
+
+
+      <div
+        id="myListings"
+        class="product-grid"
+      ></div>
+
+    </div>
+
 
   </div>
-
-
-
-  <!-- MY PRODUCTS -->
-
-  <div class="card">
-
-    <p class="eyebrow">
-      SELLER AREA
-    </p>
-
-
-    <h2>
-      My Listings
-    </h2>
-
-
-    <p id="sellerMsg">
-      Login to see your listings.
-    </p>
-
-
-    <div id="myListings"></div>
-
-  </div>
-
 
 </section>
 
@@ -483,41 +964,41 @@
 </main>
 
 
-
-<!-- ===============================
+<!-- ==================================================
      FOOTER
-================================ -->
+================================================== -->
 
 <footer>
 
-  <p>
-    © 2026 WAFLA MARKET
-  </p>
-
-</footer>
+  <div class="container footer-grid">
 
 
+    <div>
 
-<!-- ===============================
-     SUPABASE
-================================ -->
+      <h3>
+        WAFLA MARKET
+      </h3>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-</script>
+      <p>
+        A marketplace for buying and selling
+        products and growing businesses.
+      </p>
 
-
-<!-- CONFIG -->
-
-<script src="js/config.js">
-</script>
-
-
-<!-- APP -->
-
-<script src="js/app.js">
-</script>
+    </div>
 
 
-</body>
+    <div>
 
-  </html>                    
+      <h4>
+        Marketplace
+      </h4>
+
+      <a href="#products">
+        Products
+      </a>
+
+      <a href="#sell">
+        Sell
+      </a>
+
+      <a href="#account

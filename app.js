@@ -53,7 +53,6 @@ async function loadProducts() {
   let query = db
     .from("products")
     .select("*")
-    .eq("status", "published")
     .order("created_at", { ascending: false });
 
 

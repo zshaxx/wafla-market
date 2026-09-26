@@ -1,97 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:#f2f2f2;display:flex;justify-content:center}
-.app{width:100%;max-width:430px;background:#fff;min-height:100vh;padding-bottom:110px;position:relative}
-.top{padding:20px 16px;display:flex;justify-content:space-between;align-items:center}
-.brand{display:flex;align-items:center;gap:10px}
-.badge{width:44px;height:44px;background:#131a4a;border-radius:12px;display:flex;align-items:center;justify-content:center}
-.brand h1{font-weight:900;font-size:20px;line-height:0.95;color:#131a4a;letter-spacing:-0.5px}
-.icons{display:flex;gap:18px;align-items:center}
-.icon{width:24px;height:24px;stroke:#131a4a;stroke-width:2;fill:none}
-.cart{position:relative}
-.cart b{position:absolute;top:-6px;right:-7px;background:#e74c3c;color:#fff;font-size:10px;padding:2px 5px;border-radius:10px}
-.location{margin:0 16px;background:#fff6e5;border:1px solid #f5e3c0;border-radius:30px;padding:12px 16px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#5a3c00}
-.kanga{height:10px;margin:12px 16px;border-radius:10px;background:linear-gradient(90deg,#ff7a00 0 20%,#131a4a 20% 40%,#ffcc00 40% 60%,#c0392b 60% 80%,#27ae60 80% 100%)}
-.search{margin:0 16px;background:#fff6e5;border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid #f5e3c0}
-.search input{flex:1;border:0;background:transparent;outline:none;font-size:14px;font-weight:500}
-.title{padding:20px 16px 12px;display:flex;justify-content:space-between}
-.title h2{font-size:17px;font-weight:800;color:#131a4a}
-.title a{color:#ff6a00;font-size:13px;font-weight:700;text-decoration:none}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
-.card{background:#fff;border-radius:22px;padding:10px;box-shadow:0 8px 24px rgba(19,26,74,0.07);border:1px solid #f1f1f1}
-.card img{width:100%;height:138px;object-fit:cover;border-radius:16px}
-.card h3{font-size:13.5px;font-weight:700;margin:10px 0 4px;color:#131a4a}
-.price{color:#d35400;font-weight:800;font-size:13px}
-.row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-.row small{font-size:11px;color:#777;font-weight:600;display:flex;align-items:center;gap:3px}
-.btn{width:30px;height:30px;background:#ff6a00;border:0;border-radius:50%;color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px rgba(255,106,0,0.3)}
-.bottom{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:406px;background:#fff;border-radius:30px;box-shadow:0 10px 40px rgba(0,0,0,0.15);padding:10px 14px 10px;display:flex;justify-content:space-between;align-items:center;border:1px solid #eee}
-.nav{font-size:10px;font-weight:700;text-align:center;color:#999;display:flex;flex-direction:column;align-items:center;gap:3px}
-.nav.active{color:#ff6a00}
-.nav svg{width:24px;height:24px}
-.fab{width:56px;height:56px;background:#131a4a;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;margin-top:-32px;border:4px solid #fff;box-shadow:0 8px 20px rgba(19,26,74,0.3)}
-</style>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <meta name="description"
+        content="WAFLA MARKET - Buy and sell products in Tanzania">
+
+  <title>WAFLA MARKET</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="app">
-  <div class="top">
-    <div class="brand">
-      <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="#ffcc00"><path d="M6 8h12v8H6z"/><path d="M4 10h16v2H4z" fill="#ff6a00"/></svg></div>
-      <h1>WAFLA<br>MARKET</h1>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+
+    <div class="logo">
+
+      <div class="logo-icon">
+        🧺
+      </div>
+
+      <div class="logo-text">
+        <span>WAFLA</span>
+        <span>MARKET</span>
+      </div>
+
     </div>
-    <div class="icons">
-      <svg class="icon" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-      <div class="cart"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><circle cx="9" cy="20" r="1.5"/><circle cx="19" cy="20" r="1.5"/></svg><b>2</b></div>
+
+
+    <div class="header-actions">
+
+      <button class="icon-btn" id="notificationBtn">
+        🔔
+      </button>
+
+      <button class="cart-btn" id="cartBtn">
+        🛒
+        <span id="cartCount">0</span>
+      </button>
+
     </div>
-  </div>
 
-  <div class="location">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a56a00" stroke-width="2"><path d="M12 21c-4-4-7-7-7-10a7 7 0 0114 0c0 3-3 6-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
-    Mwanza, Tanzania
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a3c00" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-  </div>
+  </header>
 
-  <div class="kanga"></div>
 
-  <div class="search">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a56a00" stroke-width="2"><circle cx="11" cy="11" r="6"/><path d="M21 21l-3.5-3.5"/></svg>
-    <input placeholder="Search fish, fabrics, produce...">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="#a56a00"><path d="M12 14a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><path d="M12 19v3"/></svg>
-  </div>
 
-  <div class="title"><h2>Popular in Mwanza</h2><a>See all</a></div>
+  <!-- ================= MAIN ================= -->
+  <main class="container">
 
-  <div class="grid" id="grid"></div>
 
-  <div class="bottom">
-    <div class="nav active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>Home</div>
-    <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M16.5 7.5l-4 4-2-2"/><path d="M12 12l4 4"/></svg>Explore</div>
-    <div class="fab">+</div>
-    <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l2-5.5A8.5 8.5 0 0121 11.5z"/></svg>Inbox</div>
-    <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0116 0"/></svg>Me</div>
-  </div>
-</div>
+    <!-- LOCATION -->
+    <section class="location-section">
 
-<script>
-const data=[
-{n:"Fresh Nile Perch",p:"TZS 12,000 / kg",r:"4.8 • 24 sold",i:"https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600"},
-{n:"Kanga Fabric",p:"TZS 8,500 / piece",r:"4.9 • 56 sold",i:"https://images.unsplash.com/photo-1598300043440-67d32c2b1f2c?w=600"},
-{n:"Mangoes",p:"TZS 3,000 / kg",r:"4.6 • 102 sold",i:"https://images.unsplash.com/photo-1591424238567-6d0d88a9a9d9?w=600"},
-{n:"Woven Basket",p:"TZS 15,000 / piece",r:"4.7 • 18 sold",i:"https://images.unsplash.com/photo-1596161290887-9a2b9d9a8d9c?w=600"}
-];
-document.getElementById('grid').innerHTML=data.map(d=>`
-<div class="card">
-<img src="${d.i}">
-<h3>${d.n}</h3>
-<div class="price">${d.p}</div>
-<div class="row"><small><svg width="14" height="14" viewBox="0 0 24 24" fill="#ffcc00"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> ${d.r}</small><button class="btn">+</button></div>
-</div>`).join('');
-</script>
-</body>
-  </html>
+      <div class="location-box">
+
+        <span class="location-icon">
+          📍
+        </span>
+
+        <div>
+
+          <small>YOUR LOCATION</small>
+
+          <strong>
+            Mwanza, Tanzania
+          </strong>
+
+        </div>
+
+        <span class="arrow">
+          ▼
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- SEARCH -->
+    <section class="search-section">
+
+      <div class="search-box">
+
+        <span class="search-icon">
+          🔍
+        </span>
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search fish, fabrics, produce..."
+        >
+
+        <button id="clearSearch">
+          ✕
+        </button>
+
+      </div>
+
+
+      <button
+        class="filter-btn"
+        id="filterBtn"
+      >
+        ⚙️
+      </button>
+
+    </section>
+
+
+
+    <!-- FILTERS -->
+    <section
+      class="filters"
+      id="filters"
+    >
+
+      <button
+        class="category active"
+        data-category="all"
+      >
+        All
+      </button>
+
+      <button
+        class="category"
+        data-category="food"
+      >
+        Food
+      </button>
+
+      <button
+        class="category"
+        data-category="fashion"
+      >
+        Fashion
+      </button>
+
+      <button
+        class="category"
+        data-category="electronics"
+      >
+        Electronics
+      </button>
+
+      <button
+        class="category"
+        data-category="home"
+      >
+        Home
+      </button>
+
+      <button
+        class="category"
+        data-category="services"
+      >
+        Services
+      </button>
+
+    </section>
+
+
+
+    <!-- ================= PRODUCTS HEADER ================= -->
+
+    <section class="products-header">
+
+      <div>
+
+        <h1>
+          Popular in Mwanza
+        </h1>
+
+        <p id="productNumber">
+          Products available
+        </p>
+
+      </div>
+
+      <button id="seeAllBtn">
+        See all
+      </button>
+
+    </section>
+
+
+
+    <!-- ================= PRODUCT GRID ================= -->
+
+    <section
+      class="product-grid"
+      id="productGrid"
+    >
+
+
+      <!-- PRODUCT 1 -->
+
+      <article
+        class="product-card"
+        data-category="food"
+        data-name="Fresh Nile Perch"
+      >
+
+        <div class="product-image">
+
+          <img
+            src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=85"
+            alt="Fresh Nile Perch"
+          >
+
+          <button
+            class="favorite-btn"
+            data-id="1"
+          >
+            ♡
+          </button>
+
+        </div>
+
+
+        <div class="product-info">
+
+          <h2>
+            Fresh Nile Perch
+          </h2>
+
+          <div class="price">
+            TZS 12,000
+            <span>/ kg</span>
+          </div>
+
+          <div class="product-bottom">
+
+            <div class="rating">
+              ⭐ 4.8
+              <span>• 24 sold</span>
+            </div>
+
+            <button
+              class="add-btn"
+              data-id="1"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+
+      <!-- PRODUCT 2 -->
+
+      <article
+        class="product-card"
+        data-category="fashion"
+       

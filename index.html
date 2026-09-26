@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="max-w-[430px] mx-auto bg-white">
+<div class="flex justify-between p-4 items-center">
+  <h1 class="font-black text-xl">WAFLA<br>MARKET</h1>
+  <div>🔔 🛒<span class="bg-red-500 text-white rounded-full px-1 text-xs">2</span></div>
+</div>
+<div class="mx-4 bg-orange-50 p-3 rounded-full">📍 Mwanza, Tanzania</div>
+<div class="h-2 my-2 bg-gradient-to-r from-orange-500 via-blue-900 to-yellow-400"></div>
+<div class="mx-4 bg-orange-50 p-3 rounded-xl flex gap-2"><span>🔍</span><input placeholder="Search fish, fabrics..." class="bg-transparent w-full outline-none"></div>
 
+<h2 class="p-4 font-bold flex justify-between">Popular in Mwanza <span class="text-orange-600">See all</span></h2>
+
+<div id="products" class="grid grid-cols-2 gap-3 px-4 pb-24"></div>
+
+<div class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-white border-t flex justify-around p-3">
+  <span>🏠<br>Home</span><span>🧭<br>Explore</span><span class="bg-blue-900 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl">+</span><span>💬<br>Inbox</span><span>👤<br>Me</span>
+</div>
+
+<script>
+const supabase = window.supabase.createClient("https://exwdildhebdrweqpdjkb.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4d2RpbGRoZWJkcndlcXBkamtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMjM5NTYsImV4cCI6MjEwNTU5OTk1Nn0.Exr_ee5ghi84jp4YZtTahfJKS2fO0p-KAUNVNHFzdak")
+const demo=[{name:"Fresh Nile Perch",price:12000,image:"https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400"},{name:"Kanga Fabric",price:8500,image:"https://images.unsplash.com/photo-1590732596287-9b7e3ff2a9d6?w=400"},{name:"Mangoes",price:3000,image:"https://images.unsplash.com/photo-1553279768-865429fa0078?w=400"},{name:"Woven Basket",price:15000,image:"https://images.unsplash.com/photo-1596161290887-9a2b9d9a8d9c?w=400"}]
+
+async function load(){
+  let {data}=await supabase.from("products").select("*")
+  let list=data && data.length>0? data : demo
+  document.getElementById("products").innerHTML=list.map(p=>`
+    <div class="border rounded-2xl p-2 shadow">
+      <img src="${p.image_url||p.image}" class="h-32 w-full object-cover rounded-xl">
+      <p class="font-bold text-sm mt-2">${p.name}</p>
+      <p class="text-orange-600 font-bold">TZS ${p.price}</p>
+      <button onclick="alert('Imeongezwa kikapuni')" class="bg-orange-500 text-white w-7 h-7 rounded-full float-right">+</button>
+      <p class="text-xs">⭐ 4.8 • 24 sold</p>
+    </div>
+  `).join("")
+}
+load()
+</script>
+</body>
+</html>

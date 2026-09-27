@@ -352,21 +352,56 @@
 
 
   <!-- TEMPORARY JAVASCRIPT -->
-  <script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    document
-      .getElementById("sellForm")
-      .addEventListener("submit", function(event) {
+<script>
+  const SUPABASE_URL = "https://exwdildhebdrweqpdjkb.supabase.co";
 
-        event.preventDefault();
+  const SUPABASE_KEY = "sb_publishable_rsV-RqT04ZH-HzbJNpqMfw_5uKsyKUB";
 
-        alert(
-          "Form is ready. Supabase connection comes next."
-        );
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-      });
+  document.getElementById("sellForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-  </script>
+    const button = document.querySelector(".post-listing");
+    button.disabled = true;
+    button.textContent = "Posting...";
+
+    const product = {
+      name: document.getElementById("name").value.trim(),
+      price: Number(document.getElementById("price").value),
+      category: document.getElementById("category").value,
+      location: document.getElementById("location").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      image_url: document.getElementById("image_url").value.trim() || null,
+      description: document.getElementById("description").value.trim() || null
+    };
+
+    const { error } = await supabaseClient
+      .from("products")
+      .insert(product);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to post product: " + error.message);
+
+      button.disabled = false;
+      button.textContent = "Post Listing";
+      return;
+    }
+
+    alert("Product posted successfully! 🎉");
+
+    document.getElementById("sellForm").reset();
+
+    button.disabled = false;
+    button.textContent = "Post Listing";
+  });
+</script>
 
 </body>
   </html>

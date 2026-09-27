@@ -4,44 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Post your product on Wafla Market">
-
-  <title>Sell on Wafla Market</title>
+  <title>Sell - Wafla Market</title>
 
   <link rel="stylesheet" href="css/style.css">
 
   <style>
     .sell-page {
       max-width: 760px;
-      margin: 35px auto;
-      padding: 0 18px 80px;
-    }
-
-    .sell-top {
-      margin-bottom: 25px;
-    }
-
-    .sell-top a {
-      color: #d97816;
-      text-decoration: none;
-      font-weight: 800;
+      margin: 40px auto;
+      padding: 20px;
     }
 
     .sell-form {
       background: #fff;
-      border: 1px solid #ebe5df;
+      padding: 30px;
       border-radius: 24px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(23,23,45,.08);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
     }
 
     .sell-form h1 {
       margin-bottom: 8px;
-      font-size: 30px;
     }
 
     .sell-form > p {
-      color: #77716c;
+      color: #777;
       margin-bottom: 25px;
     }
 
@@ -51,7 +37,7 @@
 
     .form-group label {
       display: block;
-      font-weight: 800;
+      font-weight: 700;
       margin-bottom: 7px;
     }
 
@@ -59,24 +45,16 @@
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #ebe5df;
-      border-radius: 13px;
-      outline: none;
-      font: inherit;
-      background: #fff;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      box-sizing: border-box;
     }
 
     .form-group textarea {
-      min-height: 120px;
+      min-height: 130px;
       resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: #d97816;
-      box-shadow: 0 0 0 4px rgba(217,120,22,.09);
     }
 
     .form-row {
@@ -87,24 +65,27 @@
 
     .post-listing {
       width: 100%;
-      border: 0;
-      border-radius: 14px;
-      padding: 14px 18px;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
       background: #d97816;
-      color: #fff;
-      font-weight: 900;
+      color: white;
       font-size: 16px;
+      font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(217,120,22,.22);
     }
 
-    .post-listing:hover {
-      background: #b95f08;
-      transform: translateY(-1px);
+    .post-listing:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    .required {
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
       color: #d97816;
+      text-decoration: none;
+      font-weight: 700;
     }
 
     @media (max-width: 600px) {
@@ -115,233 +96,134 @@
       .sell-form {
         padding: 20px;
       }
-
-      .sell-form h1 {
-        font-size: 26px;
-      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
   <header class="header">
-
-    <a
-      href="index.html"
-      style="text-decoration:none;color:inherit"
-    >
-
+    <a href="index.html" style="text-decoration:none;color:inherit;">
       <div class="logo">
-
-        <div class="logo-icon">
-          🧺
-        </div>
+        <div class="logo-icon">🧺</div>
 
         <div class="logo-text">
           <span>WAFLA</span>
           <span>MARKET</span>
         </div>
-
       </div>
-
     </a>
-
   </header>
 
-
-  <!-- MAIN -->
   <main class="sell-page">
 
-    <div class="sell-top">
+    <a href="index.html" class="back-link">
+      ← Back to Market
+    </a>
 
-      <a href="index.html">
-        ← Back to Market
-      </a>
+    <form class="sell-form" id="sellForm">
 
-    </div>
-
-
-    <!-- SELL FORM -->
-    <form
-      class="sell-form"
-      id="sellForm"
-    >
-
-      <h1>
-        Sell on Wafla Market
-      </h1>
+      <h1>Sell on Wafla Market</h1>
 
       <p>
-        Enter your product information below.
+        Post your product and let buyers contact you.
       </p>
 
-
-      <!-- PRODUCT NAME -->
       <div class="form-group">
-
-        <label for="name">
-          Product name
-          <span class="required">*</span>
-        </label>
+        <label for="name">Product Name</label>
 
         <input
-          id="name"
-          name="name"
           type="text"
-          placeholder="e.g. iPhone 13"
+          id="name"
+          placeholder="Example: iPhone 13"
           required
         >
-
       </div>
 
-
-      <!-- PRICE + CATEGORY -->
       <div class="form-row">
 
         <div class="form-group">
-
-          <label for="price">
-            Price (TZS)
-            <span class="required">*</span>
-          </label>
+          <label for="price">Price (TZS)</label>
 
           <input
-            id="price"
-            name="price"
             type="number"
+            id="price"
+            placeholder="850000"
             min="0"
-            placeholder="e.g. 850000"
             required
           >
-
         </div>
-
 
         <div class="form-group">
+          <label for="category">Category</label>
 
-          <label for="category">
-            Category
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="category"
-            name="category"
-            required
-          >
-
-            <option value="">
-              Choose category
-            </option>
-
-            <option value="food">
-              Food
-            </option>
-
-            <option value="fashion">
-              Fashion
-            </option>
-
-            <option value="electronics">
-              Electronics
-            </option>
-
-            <option value="home">
-              Home
-            </option>
-
-            <option value="services">
-              Services
-            </option>
-
-            <option value="other">
-              Other
-            </option>
-
+          <select id="category" required>
+            <option value="">Select category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Food">Food</option>
+            <option value="Home">Home</option>
+            <option value="Services">Services</option>
+            <option value="Vehicles">Vehicles</option>
+            <option value="Other">Other</option>
           </select>
-
         </div>
 
       </div>
 
-
-      <!-- LOCATION -->
       <div class="form-group">
 
-        <label for="location">
-          Location
-          <span class="required">*</span>
-        </label>
+        <label for="location">Location</label>
 
         <input
-          id="location"
-          name="location"
           type="text"
-          placeholder="e.g. Mwanza, Nyamagana"
+          id="location"
+          placeholder="Example: Mwanza, Nyamagana"
           required
         >
 
       </div>
 
-
-      <!-- PHONE -->
       <div class="form-group">
 
-        <label for="phone">
-          Phone / WhatsApp
-          <span class="required">*</span>
-        </label>
+        <label for="phone">Phone / WhatsApp</label>
 
         <input
-          id="phone"
-          name="phone"
           type="tel"
-          placeholder="e.g. 07XXXXXXXX"
+          id="phone"
+          placeholder="07XXXXXXXX"
           required
         >
 
       </div>
 
-
-      <!-- IMAGE -->
       <div class="form-group">
 
-        <label for="image_url">
-          Image URL
-        </label>
+        <label for="image_url">Image URL</label>
 
         <input
-          id="image_url"
-          name="image_url"
           type="url"
+          id="image_url"
           placeholder="https://example.com/image.jpg"
         >
 
       </div>
 
-
-      <!-- DESCRIPTION -->
       <div class="form-group">
 
-        <label for="description">
-          Description
-        </label>
+        <label for="description">Description</label>
 
         <textarea
           id="description"
-          name="description"
           placeholder="Describe your product..."
         ></textarea>
 
       </div>
 
-
-      <!-- SUBMIT -->
       <button
-        class="post-listing"
         type="submit"
+        class="post-listing"
+        id="postButton"
       >
         Post Listing
       </button>
@@ -351,57 +233,102 @@
   </main>
 
 
-  <!-- TEMPORARY JAVASCRIPT -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-  const SUPABASE_URL = "https://exwdildhebdrweqpdjkb.supabase.co";
+  <script>
 
-  const SUPABASE_KEY = "sb_publishable_rsV-RqT04ZH-HzbJNpqMfw_5uKsyKUB";
+    const SUPABASE_URL =
+      "https://exwdildhebdrweqpdjkb.supabase.co";
 
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    const SUPABASE_KEY =
+      "sb_publishable_rsV-RqT04ZH-HzbJNpqMfw_5uKsyKUB";
 
-  document.getElementById("sellForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-    const button = document.querySelector(".post-listing");
-    button.disabled = true;
-    button.textContent = "Posting...";
 
-    const product = {
-      name: document.getElementById("name").value.trim(),
-      price: Number(document.getElementById("price").value),
-      category: document.getElementById("category").value,
-      location: document.getElementById("location").value.trim(),
-      phone: document.getElementById("phone").value.trim(),
-      image_url: document.getElementById("image_url").value.trim() || null,
-      description: document.getElementById("description").value.trim() || null
-    };
+    const form =
+      document.getElementById("sellForm");
 
-    const { error } = await supabaseClient
-      .from("products")
-      .insert(product);
+    const button =
+      document.getElementById("postButton");
 
-    if (error) {
-      console.error(error);
-      alert("Failed to post product: " + error.message);
+
+    form.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      button.disabled = true;
+      button.textContent = "Posting...";
+
+
+      const product = {
+
+        name:
+          document.getElementById("name").value.trim(),
+
+        price:
+          Number(document.getElementById("price").value),
+
+        category:
+          document.getElementById("category").value,
+
+        location:
+          document.getElementById("location").value.trim(),
+
+        phone:
+          document.getElementById("phone").value.trim(),
+
+        image_url:
+          document.getElementById("image_url").value.trim() || null,
+
+        description:
+          document.getElementById("description").value.trim() || null
+
+      };
+
+
+      const { data, error } =
+        await supabaseClient
+          .from("products")
+          .insert([product])
+          .select();
+
+
+      if (error) {
+
+        console.error(error);
+
+        alert(
+          "Failed to post product:\n\n" +
+          error.message
+        );
+
+        button.disabled = false;
+        button.textContent = "Post Listing";
+
+        return;
+      }
+
+
+      console.log("Product:", data);
+
+      alert(
+        "Product posted successfully! 🎉"
+      );
+
+
+      form.reset();
 
       button.disabled = false;
       button.textContent = "Post Listing";
-      return;
-    }
 
-    alert("Product posted successfully! 🎉");
+    });
 
-    document.getElementById("sellForm").reset();
-
-    button.disabled = false;
-    button.textContent = "Post Listing";
-  });
-</script>
+  </script>
 
 </body>
-  </html>
+          </html>
